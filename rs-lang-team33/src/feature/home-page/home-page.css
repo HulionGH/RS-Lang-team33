@@ -1,0 +1,7 @@
+.content-wrap {
+  border: 2px solid blue;
+  background-image: url("../../resources/1.jpg");
+  background-size: inherit;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
