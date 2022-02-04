@@ -1,4 +1,5 @@
 .navigation-bar {
   background-color: rgb(196, 248, 231);
-  max-width: 200px;
+  max-width: 180px;
+  font-family: "Dancing Script", cursive;
 }

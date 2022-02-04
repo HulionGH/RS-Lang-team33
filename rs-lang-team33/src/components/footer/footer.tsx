@@ -1,5 +1,4 @@
 import {
-  Avatar,
   BottomNavigation,
   BottomNavigationAction,
   SvgIcon,
@@ -8,11 +7,12 @@ import "./footer.css";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { ReactComponent as RssIcon } from "../../resources/rs_school_js.svg";
 import { Box } from "@mui/system";
+import { lightBlue } from "@mui/material/colors";
 
 const Footer = () => {
   return (
-    <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
-      <BottomNavigation showLabels>
+    <Box sx={{ alignSelf: "flex-end", width: "100%" }}>
+      <BottomNavigation showLabels style={{ background: lightBlue.A200 }}>
         <SvgIcon
           className="school-logo"
           component={RssIcon}
@@ -23,12 +23,12 @@ const Footer = () => {
         <BottomNavigationAction
           label="AliaxeiSehiyenia"
           value="AliaxeiSehiyenia"
-          icon={<GitHubIcon sx={{ width: 36, height: 36 }} />}
+          icon={<GitHubIcon sx={{ width: 32, height: 32 }} />}
         />
         <BottomNavigationAction
           label="HulionGH"
           value="HulionGH"
-          icon={<GitHubIcon sx={{ width: 36, height: 36 }} />}
+          icon={<GitHubIcon sx={{ width: 32, height: 32 }} />}
         />
       </BottomNavigation>
     </Box>

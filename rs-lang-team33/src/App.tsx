@@ -9,13 +9,12 @@ function App() {
   const [counter, setConter] = useState(0);
 
   return (
-    <Box className="home-page" sx={{ flexDirection: "column" }}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
+    <Box className="home-page" display="flex" sx={{ flexDirection: "column" }}>
+      <Header />
+      <Box display="flex" flexGrow={1}>
+        <SideBar />
+        <Box className="content"></Box>
       </Box>
-
-      <SideBar />
-
       <Footer />
     </Box>
   );
