@@ -1,3 +1,8 @@
 .school-logo {
   padding: 6px 24px 8px 12px;
 }
+
+.css-imwso6-MuiBottomNavigationAction-label {
+  font-size: 2rem;
+  opacity: 1;
+}

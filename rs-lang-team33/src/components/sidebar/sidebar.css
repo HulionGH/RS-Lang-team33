@@ -1,5 +1,18 @@
 .navigation-bar {
   background-color: rgb(196, 248, 231);
-  max-width: 180px;
+  max-width: 194px;
   font-family: "Dancing Script", cursive;
+}
+.nav-links {
+  color: inherit;
+  text-decoration: none;
+}
+
+.css-1pq0knl-MuiList-root {
+  background: #039be5 !important;
+}
+
+.css-10hburv-MuiTypography-root {
+  font-weight: 500 !important;
+  font-size: 1.5rem !important;
 }

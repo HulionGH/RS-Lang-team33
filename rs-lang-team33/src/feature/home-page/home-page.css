@@ -1,0 +1,9 @@
+.content-home {
+  background-image: url("../../resources/1.jpg");
+  background-size: inherit;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}

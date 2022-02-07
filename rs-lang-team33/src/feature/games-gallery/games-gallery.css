@@ -1,0 +1,10 @@
+.content-games-gallery {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7) 0 100%),
+    url("../../resources/game-back.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}

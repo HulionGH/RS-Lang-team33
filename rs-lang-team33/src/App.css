@@ -40,9 +40,15 @@ body {
   display: flex;
   height: 100%;
   width: 100%;
-  background-image: url("./resources/1.jpg");
-  background-size: inherit;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  z-index: 2;
+}
+
+.css-10hburv-MuiTypography-root {
+  font-family: "Dancing Script" !important;
+}
+
+.content-wrap {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
 }
