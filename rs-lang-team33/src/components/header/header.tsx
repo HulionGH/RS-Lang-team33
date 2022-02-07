@@ -1,14 +1,13 @@
 import {
   AppBar,
-  Box,
-  Button,
   IconButton,
   Toolbar,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import "./header.css";
 import { lightBlue } from "@mui/material/colors";
+import { Link } from "react-router-dom";
+import "./header.css";
 
 const Header = () => {
   return (
@@ -26,7 +25,7 @@ const Header = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           LANG-33
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Link to="/sig-in" className="btnHeaderLogin">Login</Link>
       </Toolbar>
     </AppBar>
   );

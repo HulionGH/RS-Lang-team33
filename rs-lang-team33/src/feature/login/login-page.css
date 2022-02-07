@@ -1,0 +1,16 @@
+.loginModal {
+  margin: 0 auto;
+}
+
+.titleStyle {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.paperStyle {
+  padding: 20px;
+  padding-top: 40px;
+  height: 350px;
+  width: 300px;
+  margin: 20px;
+}
