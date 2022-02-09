@@ -13,11 +13,11 @@ const Login = () => {
         <Grid>
           <h2 className="title-modal">Sign In</h2>
         </Grid>
-        <TextField style={inputModal} label='Username' placeholder='Enter username' fullWidth required />
+        <TextField style={inputModal} label='email' placeholder='Enter username' fullWidth required />
         <TextField style={inputModal} label='Password' placeholder='Enter password' type='password' fullWidth required />
         <Button type='submit' color='primary' variant="contained" style={btnModalSubmit} fullWidth>Sign in</Button>
         <Typography> Do you have an account?
-          <Link to="/sig-up"> Sign Up</Link>
+          <Link to="/sign-up"> Sign Up</Link>
         </Typography>
       </Paper>
     </Grid>

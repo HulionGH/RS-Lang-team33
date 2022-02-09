@@ -25,7 +25,7 @@ const Header = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           LANG-33
         </Typography>
-        <Link to="/sig-in" className="btnHeaderLogin">Login</Link>
+        <Link to="/sign-in" className="btnHeaderLogin">Login</Link>
       </Toolbar>
     </AppBar>
   );
