@@ -1,7 +1,9 @@
-import { Avatar, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { useLayoutEffect, useState } from 'react';
+
+import { Avatar, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddPhotoAlternate';
+
 import { createUser } from '../../services/sig-in-up-service';
 import "./sign-up-page.css";
 
@@ -14,7 +16,7 @@ const SignUp = () => {
 
   let navigate = useNavigate();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isCanCreating) {
       onSignUp();
     }
@@ -28,14 +30,12 @@ const SignUp = () => {
   const onSignUp = () => {
     // add validation email and password. if invalid don't fetch and show message in helperText
     createUser({ name: email, email: email, password: password })
-      .then((res) => {
-        console.log(res);
-        navigate("/sign-in");
-    })
+      .then(() => navigate("/sign-in"))
       .catch((error) => onError(error))
   };
 
   const onError = (error: Error) => {
+    setIsCanCreating(false);
     if (Number(error.message) === 417) {
       setHelperTextEmail('user with this e-mail exists');
     } else if (Number(error.message) === 422) {
@@ -55,17 +55,17 @@ const SignUp = () => {
 
   const btnModalSubmit = { margin: '12px 0', height: "40px" };
   const inputModal = { marginBottom: '10px' };
-  const avatarModal = { backgroundColor: "#1bbd7e" };
+  const avatarModal = { backgroundColor: '#1bbd7e' };
 
   return (
     <Grid className="login-modal">
       <Paper elevation={10} className="paper-style">
         <Grid>
-          <Avatar 
-          className="avatar-modal" 
-          style={avatarModal} 
-          sx={{ width: 56, height: 56 }} 
-          alt="Avatar"><AddIcon /></Avatar>
+          <Avatar
+            className="avatar-modal"
+            style={avatarModal}
+            sx={{ width: 56, height: 56 }}
+            alt="Avatar"><AddIcon /></Avatar>
           <h2 className="title-modal">Sign Up</h2>
         </Grid>
         <TextField

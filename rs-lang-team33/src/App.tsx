@@ -1,9 +1,10 @@
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+
 import Box from "@mui/material/Box";
+
 import SideBar from "./components/sidebar/sidebar";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
-import { Routes, Route } from "react-router-dom";
 import AboutUs from "./feature/our-team/about-us";
 import GamesGallery from "./feature/games-gallery/games-gallery";
 import Book from "./feature/book/book";
@@ -12,6 +13,8 @@ import Stats from "./feature/stats/stats";
 import Home from "./feature/home-page/home-page";
 import Login from "./feature/login/login-page";
 import SignUp from "./feature/sign-up/sign-up-page";
+
+import "./App.css";
 
 function App() {
   return (
