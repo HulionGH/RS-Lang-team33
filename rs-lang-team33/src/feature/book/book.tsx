@@ -91,7 +91,7 @@ const Book = () => {
         >
           <Box className="book-page">
             {words.map((word) => {
-              return <CardWord key={word.id} />;
+              return <CardWord key={word.id} card={word} />;
             })}
           </Box>
         </Box>

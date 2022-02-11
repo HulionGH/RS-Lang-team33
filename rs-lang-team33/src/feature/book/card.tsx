@@ -1,46 +1,84 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import { baseURL } from "../../constants";
 import { IWordCard } from "../../interfaces";
 import "./book.css";
+import VolumeDownIcon from "@mui/icons-material/VolumeDown";
+interface Props {
+  card: IWordCard;
+}
+const CardWord = ({ card }: Props) => {
+  const imgSrc = `${baseURL}${card.image}`;
+  const audioSrc = `${baseURL}${card.audio}`;
+  const audioMeanSrc = `${baseURL}${card.audioMeaning}`;
+  const audioExampleSrc = `${baseURL}${card.audioExample}`;
 
-const CardWord = () => {
-  //props: IWordCard
+  const start = (src: string) => {
+    const audio = new Audio(src);
+    audio.play();
+  };
 
-  const card = (
-    <React.Fragment>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          benevolent
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </React.Fragment>
-  );
+  //     "textMeaningTranslate": "string",
+  //     "textExampleTranslate": "string"
 
   return (
-    <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">{card}</Card>
-    </Box>
+    <Card className="word-card" sx={{ maxWidth: 345 }}>
+      <CardMedia component="img" alt="XX" height="180" image={imgSrc} />
+      <CardContent>
+        <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
+          <Typography gutterBottom variant="h5" component="div">
+            {card.word}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {card.transcription}
+          </Typography>
+          <VolumeDownIcon
+            sx={{ height: 20, width: 20 }}
+            onClick={() => start(audioSrc)}
+          />
+        </Box>
+
+        <Typography gutterBottom variant="h6" component="div">
+          {card.wordTranslate}
+        </Typography>
+
+        <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            dangerouslySetInnerHTML={{ __html: card.textMeaning || "" }}
+          ></Typography>
+          <VolumeDownIcon
+            sx={{ height: 20, width: 20 }}
+            onClick={() => start(audioMeanSrc)}
+          />
+        </Box>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          dangerouslySetInnerHTML={{ __html: card.textMeaningTranslate || "" }}
+        ></Typography>
+
+        <hr />
+        <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            dangerouslySetInnerHTML={{ __html: card.textExample || "" }}
+          ></Typography>
+          <VolumeDownIcon
+            sx={{ height: 20, width: 20 }}
+            onClick={() => start(audioExampleSrc)}
+          />
+        </Box>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          dangerouslySetInnerHTML={{ __html: card.textExampleTranslate || "" }}
+        ></Typography>
+      </CardContent>
+    </Card>
   );
 };
 
