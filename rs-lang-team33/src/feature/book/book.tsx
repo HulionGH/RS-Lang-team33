@@ -15,22 +15,21 @@ import CardWord from "./card";
 import { IWordCard } from "../../interfaces";
 
 const Book = () => {
-  const [group, setGroup] = useState("");
-  // const [page, setPage] = useState("");
+  const [group, setGroup] = useState(0);
+  const [page, setPage] = useState(1);
   const [words, setWords] = useState<IWordCard[]>([]);
 
   const handleChangeSection = (event: SelectChangeEvent) => {
-    console.log(event.target.value);
-    setGroup(event.target.value as string);
+    setGroup(+event.target.value);
   };
 
   useEffect(() => {
     async function fetchWords() {
-      const wordsArr = await ServiceDictionary.getWords(0, 0);
+      const wordsArr = await ServiceDictionary.getWords(page - 1, group);
       setWords(wordsArr);
     }
     fetchWords();
-  }, []);
+  }, [page, group]);
 
   return (
     <div className="content-wrap">
@@ -43,6 +42,7 @@ const Book = () => {
             flexDirection: "row",
             alignItems: "center",
             width: "100%",
+            columnGap: "8px",
           }}
         >
           <FormControl
@@ -55,7 +55,7 @@ const Book = () => {
             <Select
               labelId="select-label"
               id="select"
-              value={group}
+              value={group.toString()}
               label="Select SECTION"
               onChange={handleChangeSection}
             >
@@ -68,7 +68,17 @@ const Book = () => {
               <MenuItem value={6}>Section 7</MenuItem>
             </Select>
           </FormControl>
-          <Pagination className="book-pagination" count={30} color="primary" />
+
+          <Pagination
+            className="book-pagination"
+            count={30}
+            page={page}
+            onChange={(e, value) => setPage(value)}
+            color="primary"
+          />
+
+          <Button className="game-btn">AUDIOCALL</Button>
+          <Button className="game-btn">SPRINT</Button>
         </Box>
 
         <Box

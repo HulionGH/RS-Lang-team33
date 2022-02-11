@@ -28,6 +28,10 @@
   background-color: rgba(255, 255, 255, 0.8) !important;
 }
 
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 10px 10px !important;
+  text-align: center !important;
+}
 /* .word-card {
 
 } */
