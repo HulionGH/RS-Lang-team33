@@ -13,12 +13,14 @@ const Footer = () => {
   return (
     <Box sx={{ alignSelf: "flex-end", width: "100%" }}>
       <BottomNavigation showLabels style={{ background: lightBlue.A200 }}>
-        <SvgIcon
-          className="school-logo"
-          component={RssIcon}
-          inheritViewBox
-          sx={{ width: 80, height: 40, opacity: 0.7 }}
-        />
+        <Box>
+          <SvgIcon
+            className="school-logo"
+            component={RssIcon}
+            inheritViewBox
+            sx={{ width: 80, height: 40, opacity: 0.7 }}
+          />
+        </Box>
 
         <BottomNavigationAction
           label="AliaxeiSehiyenia"
