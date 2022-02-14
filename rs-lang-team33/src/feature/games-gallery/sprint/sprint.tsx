@@ -1,61 +1,20 @@
 import { useEffect, useState } from 'react';
 
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-  List,
-  ListSubheader,
-  Stack,
-} from '@mui/material';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
 import { userInfo } from '../../login/login-page';
-import { baseURL } from '../../../constants';
+import PageSprintSettings from './page-sprint-settings/page-sprint-settings'
+import PageResult from './page-result/page-result'
+import { userWords, wordInfo } from '../../../types';
+
 import './sprint.css';
-
-
-export type wordInfo = {
-  audio: string,
-  audioExample: string,
-  audioMeaning: string,
-  group: number,
-  id: number,
-  image: string,
-  page: number,
-  textExample: string,
-  textExampleTranslate: string,
-  textMeaning: string,
-  textMeaningTranslate: string,
-  transcription: string,
-  word: string,
-  wordTranslate: string,
-};
-
-export type userWords = {
-  id: string,
-  difficulty: string,
-  wordId: string,
-  optional: {
-    sprint?: string,
-    audioCall?: string
-  }
-}
 
 const GameSprint = () => {
   const [difficulty, setDifficulty] = useState('1');
   const [isLoading, setIsLoading] = useState(false);
-  const [isStart, setIsStart] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [isStart, setIsStart] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [dataWords, setDataWords] = useState<wordInfo[] | null>(null);
   const [numberCurrentPage, setNumberCurrentPage] = useState<number>(0);
@@ -85,6 +44,11 @@ const GameSprint = () => {
     return numb;
   };
 
+  const onStart = (difficulty: string, isStart: boolean) => {
+    setDifficulty(difficulty);
+    setIsStart(isStart);
+  }
+
   useEffect(() => {
     if (isStart) {
       setNumberCurrentWord(getRandomNumberWord(0, 20));
@@ -102,8 +66,9 @@ const GameSprint = () => {
   }, [arrAnswers]);
 
   useEffect(() => {
-    if (isFinished) {
+    if (isFinished && timerId) {
       userWordsLoading();
+      clearTimeout(timerId);
     }
   }, [isFinished])
 
@@ -118,9 +83,6 @@ const GameSprint = () => {
       } else {
         setIsFinished(true);
         setIsLoading(true);
-        if (timerId) {
-          clearTimeout(timerId);
-        }
         return 0;
       };
     });
@@ -138,14 +100,6 @@ const GameSprint = () => {
         setIsLoading(false);
         countdown();
       });
-  };
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setDifficulty(event.target.value as string);
-  };
-
-  const onStart = () => {
-    setIsStart(true);
   };
 
   const getLocalStorage = () => {
@@ -187,6 +141,8 @@ const GameSprint = () => {
                 sprint: answer
               }
             }, (userInfo as userInfo).token);
+          } else if (Number(error.message) === 404) {
+            // doing login with refreshToken 
           };
         });
     };
@@ -199,50 +155,6 @@ const GameSprint = () => {
         .catch((error) => console.log(error));
     };
   };
-
-  const audio = new Audio();
-  const startAudio = async (event: React.MouseEvent<SVGSVGElement>) => {
-    audio.pause()
-    const curWord = dataWords?.filter((item) => String(item.id) === (event.currentTarget.dataset.id as string));
-    if (curWord) {
-      const res = await fetch(`${baseURL}${curWord[0].audio}`);
-      audio.src = `${res.url}`;
-      audio.play();
-    }
-  }
-
-  const PageSprintSettings = () => {
-    return (
-      <div className="content-wrap">
-        <div className="content-games-sprint">
-          <h2>Sprint</h2>
-          <Box sx={{ minWidth: 150 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">difficulty</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={difficulty}
-                label="setDifficulty"
-                onChange={handleChange}>
-                <MenuItem value="1">1</MenuItem>
-                <MenuItem value="2">2</MenuItem>
-                <MenuItem value="3">3</MenuItem>
-                <MenuItem value="4">4</MenuItem>
-                <MenuItem value="5">5</MenuItem>
-                <MenuItem value="6">6</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Button variant="outlined" size="medium" onClick={() => {
-            onStart();
-          }}>
-            START
-          </Button>
-        </div>
-      </div>
-    )
-  }
 
   const PageSprint = () => {
     if (dataWords) {
@@ -268,63 +180,9 @@ const GameSprint = () => {
     } else return null;
   }
 
-  const PageResult = () => {
-    let wordRightInfo: Array<wordInfo[]> = [];
-    let wordWrongInfo: Array<wordInfo[]> = [];
-
-    const currentDifficultyRightAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-      && (String(item.optional.sprint) === 'true'));
-    const currentDifficultyWrongAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-      && (String(item.optional.sprint) === 'false'));
-    currentDifficultyRightAnswers.map((item) => wordRightInfo.push((dataWords as wordInfo[])
-      .filter((i) => String(i.id) === item.wordId)))
-    currentDifficultyWrongAnswers.map((item) => wordWrongInfo.push((dataWords as wordInfo[])
-      .filter((i) => String(i.id) === item.wordId)))
-
-    return (
-      <List
-        sx={{
-          width: '100%',
-          maxWidth: 360,
-          bgcolor: 'background.paper',
-          position: 'relative',
-          overflow: 'auto',
-          maxHeight: 500,
-          margin: '0 auto',
-          '& ul': { padding: 0 },
-        }}
-        subheader={<div />}
-      >
-        <h5>right</h5>
-        {wordRightInfo.flat().map((item, index) => {
-          return (
-            <div key={`${index}`}>
-              <Stack direction="row" alignItems="center">
-                <VolumeUpIcon data-id={item.id} onClick={startAudio} />
-                {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
-              </Stack>
-            </div>
-          )
-        })}
-        <h5>wrong</h5>
-        {wordWrongInfo.flat().map((item, index) => {
-          return (
-            <div key={`${index}`}>
-              <Stack direction="row" alignItems="center">
-                <VolumeUpIcon data-id={item.id} onClick={startAudio} />
-                {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
-              </Stack>
-            </div>
-          )
-        })}
-      </List>
-
-    )
-  }
-
-  const pageSettings = !isStart ? <PageSprintSettings /> : null;
+  const pageSettings = !isStart ? <PageSprintSettings onStart={onStart} /> : null;
   const pageGame = !(isLoading || !dataWords) ? <PageSprint /> : null;
-  const pageResult = userWordsList.length > 0 ? <PageResult /> : null;
+  const pageResult = userWordsList.length > 0 ? <PageResult userWordsList={userWordsList} difficulty={difficulty} dataWords={dataWords}/> : null;
 
   return (
     <>

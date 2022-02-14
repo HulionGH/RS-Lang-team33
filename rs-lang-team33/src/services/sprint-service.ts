@@ -1,12 +1,5 @@
 import { baseURL } from '../constants';
-
-export type wordType = {
-  difficulty: string,
-  optional: {
-    sprint?: boolean,
-    audioCall?: boolean
-  },
-};
+import { wordType } from '../types';
 
 export async function getWords(activePage: number, groupNum: number) {
   const response = await fetch(`${baseURL}words?group=${groupNum}&page=${activePage}`, {

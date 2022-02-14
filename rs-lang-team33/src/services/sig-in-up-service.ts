@@ -1,10 +1,5 @@
 import { baseURL } from '../constants';
-
-export type userSignUp = {
-  name?: string,
-  email: string,
-  password: string,
-};
+import { userSignUp } from '../types';
 
 export async function createUser(user: userSignUp) {
   const response = await fetch(`${baseURL}users`, {
