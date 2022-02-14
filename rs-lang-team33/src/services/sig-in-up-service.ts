@@ -1,4 +1,4 @@
-const baseURL = 'https://react-learnwords-example.herokuapp.com/';
+import { baseURL } from '../constants';
 
 export type userSignUp = {
   name?: string,

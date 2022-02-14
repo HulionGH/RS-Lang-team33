@@ -20,7 +20,9 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
 import { userInfo } from '../../login/login-page';
+import { baseURL } from '../../../constants';
 import './sprint.css';
+
 
 export type wordInfo = {
   audio: string,
@@ -197,13 +199,13 @@ const GameSprint = () => {
         .catch((error) => console.log(error));
     };
   };
-  
+
   const audio = new Audio();
   const startAudio = async (event: React.MouseEvent<SVGSVGElement>) => {
     audio.pause()
     const curWord = dataWords?.filter((item) => String(item.id) === (event.currentTarget.dataset.id as string));
     if (curWord) {
-      const res = await fetch(`https://react-learnwords-example.herokuapp.com/${curWord[0].audio}`);
+      const res = await fetch(`${baseURL}${curWord[0].audio}`);
       audio.src = `${res.url}`;
       audio.play();
     }
@@ -291,28 +293,28 @@ const GameSprint = () => {
           margin: '0 auto',
           '& ul': { padding: 0 },
         }}
-        subheader={<li />}
+        subheader={<div />}
       >
         <h5>right</h5>
         {wordRightInfo.flat().map((item, index) => {
           return (
-            <li key={`${index}`}>
+            <div key={`${index}`}>
               <Stack direction="row" alignItems="center">
                 <VolumeUpIcon data-id={item.id} onClick={startAudio} />
                 {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
               </Stack>
-            </li>
+            </div>
           )
         })}
         <h5>wrong</h5>
         {wordWrongInfo.flat().map((item, index) => {
           return (
-            <li key={`${index}`}>
+            <div key={`${index}`}>
               <Stack direction="row" alignItems="center">
                 <VolumeUpIcon data-id={item.id} onClick={startAudio} />
                 {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
               </Stack>
-            </li>
+            </div>
           )
         })}
       </List>
