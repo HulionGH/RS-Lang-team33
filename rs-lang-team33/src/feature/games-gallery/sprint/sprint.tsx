@@ -159,30 +159,35 @@ const GameSprint = () => {
   const PageSprint = () => {
     if (dataWords) {
       return (
-        <div className="field-sprint">
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <div>{seconds}</div>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {(dataWords[numberCurrentWord] as wordInfo).word}
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {(dataWords[numberAnswer] as wordInfo).wordTranslate}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" data-name="right" onClick={onSelect}>Right</Button>
-              <Button size="small" data-name="wrong" onClick={onSelect}>Wrong</Button>
-            </CardActions>
-          </Card>
+        <div className='content-wrap wrapper-sprint-page'>
+          <div className='content-sprint-pape'>
+            <div className="field-sprint">
+              <Card sx={{ minWidth: 275 }}>
+                <CardContent>
+                  <div>{seconds}</div>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {(dataWords[numberCurrentWord] as wordInfo).word}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {(dataWords[numberAnswer] as wordInfo).wordTranslate}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" data-name="right" onClick={onSelect}>Right</Button>
+                  <Button size="small" data-name="wrong" onClick={onSelect}>Wrong</Button>
+                </CardActions>
+              </Card>
+            </div>
+          </div>
         </div>
+
       )
     } else return null;
   }
 
   const pageSettings = !isStart ? <PageSprintSettings onStart={onStart} /> : null;
   const pageGame = !(isLoading || !dataWords) ? <PageSprint /> : null;
-  const pageResult = userWordsList.length > 0 ? <PageResult userWordsList={userWordsList} difficulty={difficulty} dataWords={dataWords}/> : null;
+  const pageResult = userWordsList.length > 0 ? <PageResult userWordsList={userWordsList} difficulty={difficulty} dataWords={dataWords} /> : null;
 
   return (
     <>

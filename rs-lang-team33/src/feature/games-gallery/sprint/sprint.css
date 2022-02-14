@@ -1,3 +1,12 @@
+.wrapper-sprint-page {
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../../resources/background-sprint.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .field-sprint {
   margin: 0 auto;
   margin-top: 20px;
