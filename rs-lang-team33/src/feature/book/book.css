@@ -1,5 +1,5 @@
 .content-book {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0 100%),
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0 100%),
     url("../../resources/5-13.jpg");
   background-size: contain;
   background-position: top center;
@@ -11,6 +11,28 @@
   row-gap: 12px;
 }
 
-.section-btns {
-  row-gap: 8px;
+.book-page {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 10px;
+  overflow: hidden;
+}
+
+.css-46bh2p-MuiCardContent-root {
+  padding: 10px !important;
+}
+
+.css-1v5z4dq-MuiPaper-root-MuiCard-root {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 10px 10px !important;
+  text-align: center !important;
+}
+.word-card {
+  width: 400px;
+  height: 450px;
 }
