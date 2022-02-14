@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
-import { userInfo } from '../../login/login-page';
+import { userInfo } from '../../../types';
 import PageSprintSettings from './page-sprint-settings/page-sprint-settings'
 import PageResult from './page-result/page-result'
 import { userWords, wordInfo } from '../../../types';
@@ -141,7 +141,7 @@ const GameSprint = () => {
                 sprint: answer
               }
             }, (userInfo as userInfo).token);
-          } else if (Number(error.message) === 404) {
+          } else if (Number(error.message) === 401) {
             // doing login with refreshToken 
           };
         });

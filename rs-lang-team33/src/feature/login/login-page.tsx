@@ -4,17 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
 
 import { loginUser } from '../../services/sig-in-up-service';
+import { userInfo } from '../../types';
 import "./login-page.css";
-
-export type userInfo = {
-  name: string,
-  email: string,
-  password: string,
-  message: string,
-  token: string,
-  refreshToken: string,
-  userId: string,
-};
 
 const Login = () => {
   const [isCanCreating, setIsCanCreating] = useState(false);
@@ -43,7 +34,6 @@ const Login = () => {
         setLocalStorage({
           name: res.name,
           email: email,
-          password: password,
           message: res.message,
           token: res.token,
           refreshToken: res.refreshToken,

@@ -48,3 +48,12 @@ export type userSignUp = {
   email: string;
   password: string;
 };
+
+export type userInfo = {
+  name: string;
+  email: string;
+  message: string;
+  token: string;
+  refreshToken: string;
+  userId: string;
+};
