@@ -15,7 +15,6 @@ import Login from "./feature/login/login-page";
 import SignUp from "./feature/sign-up/sign-up-page";
 import GameSprint from "./feature/games-gallery/sprint/sprint";
 import GameAudioCall from "./feature/games-gallery/audio-call/audio-call";
-
 import "./App.css";
 
 
