@@ -5,6 +5,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 import { PageResultProps, userWords, wordInfo } from '../../../../types';
 import { baseURL } from '../../../../constants';
+import './page-result.css';
 
 const PageResult = (props: PageResultProps) => {
   const [userWordsList, setUserWordsList] = useState<userWords[]>([]);
@@ -42,42 +43,46 @@ const PageResult = (props: PageResultProps) => {
     .filter((i) => String(i.id) === item.wordId)))
 
   return (
-    <List
-      sx={{
-        width: '100%',
-        maxWidth: 360,
-        bgcolor: 'background.paper',
-        position: 'relative',
-        overflow: 'auto',
-        maxHeight: 500,
-        margin: '0 auto',
-        '& ul': { padding: 0 },
-      }}
-      subheader={<div />}
-    >
-      <h5>right</h5>
-      {wordRightInfo.flat().map((item, index) => {
-        return (
-          <div key={`${index}`}>
-            <Stack direction="row" alignItems="center">
-              <VolumeUpIcon data-id={item.id} onClick={startAudio} />
-              {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
-            </Stack>
-          </div>
-        )
-      })}
-      <h5>wrong</h5>
-      {wordWrongInfo.flat().map((item, index) => {
-        return (
-          <div key={`${index}`}>
-            <Stack direction="row" alignItems="center">
-              <VolumeUpIcon data-id={item.id} onClick={startAudio} />
-              {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
-            </Stack>
-          </div>
-        )
-      })}
-    </List>
+    <div className='content-wrap wrapper-sprint-page'>
+      <List
+        className='field-sprint-result'
+        sx={{
+          width: '100%',
+          maxWidth: 500,
+          bgcolor: 'background.paper',
+          position: 'relative',
+          overflow: 'auto',
+          maxHeight: 500,
+          padding: '20px',
+          '& ul': { padding: 0 },
+        }}
+      > 
+        <h2 className='sprint-congratulation-result'>{currentDifficultyRightAnswers.length > 10 ? 'Congratulations, great result' : 'Not bad, but there is work to be done'}</h2>
+        <h5 className='sprint-title-result'>right: {currentDifficultyRightAnswers.length}</h5>
+        {wordRightInfo.flat().map((item, index) => {
+          return (
+            <div key={`${index}`}>
+              <Stack direction="row" alignItems="center">
+                <VolumeUpIcon data-id={item.id} onClick={startAudio} />
+                {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
+              </Stack>
+            </div>
+          )
+        })}
+        <h5 className='sprint-title-result'>wrong: {currentDifficultyWrongAnswers.length}</h5>
+        {wordWrongInfo.flat().map((item, index) => {
+          return (
+            <div key={`${index}`}>
+              <Stack direction="row" alignItems="center">
+                <VolumeUpIcon data-id={item.id} onClick={startAudio} />
+                {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
+              </Stack>
+            </div>
+          )
+        })}
+      </List>
+    </div >
+
   );
 };
 

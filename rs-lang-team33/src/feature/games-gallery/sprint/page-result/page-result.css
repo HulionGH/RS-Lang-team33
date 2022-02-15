@@ -1,0 +1,19 @@
+.field-sprint-result {
+  display: flex;
+  flex-direction: column;
+}
+
+.sprint-title-result,
+.sprint-congratulation-result {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.sprint-title-result {
+  color: rgb(0, 139, 0);
+}
+
+.sprint-title-result:last-of-type {
+
+  color: rgb(255, 0, 0);
+}

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useSound } from 'use-sound';
 
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
 import { userInfo } from '../../../types';
@@ -27,6 +30,11 @@ const GameSprint = () => {
   const [numberAnswer, setNumberAnswer] = useState<number>(0);
   const [userWordsList, setUserWordsList] = useState<userWords[]>([]);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+
+  const correct = require('../../../resources/correct.mp3');
+  const incorrect = require('../../../resources/incorrect.mp3');
+  const [cor] = useSound(correct);
+  const [inCor] = useSound(incorrect);
 
   const getRandomNumberPage: (min: number, max: number) => number = (min, max) => {
     let numb: number;
@@ -117,7 +125,8 @@ const GameSprint = () => {
 
   const onSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
     const answer = (numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
-    || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong");
+      || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong");
+    answer ? cor() : inCor();
     if (isSignIn) {
       addUserWord(answer);
     } else {
@@ -128,7 +137,8 @@ const GameSprint = () => {
           wordId: `${dataWords[numberCurrentWord].id}`,
           optional: {
             sprint: `${answer}`
-        }}])
+          }
+        }])
       }
     }
 
@@ -181,27 +191,24 @@ const GameSprint = () => {
     if (dataWords) {
       return (
         <div className='content-wrap wrapper-sprint-page'>
-          <div className='content-sprint-pape'>
-            <div className="field-sprint">
-              <Card sx={{ minWidth: 275 }}>
-                <CardContent>
-                  <div>{seconds}</div>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {(dataWords[numberCurrentWord] as wordInfo).word}
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {(dataWords[numberAnswer] as wordInfo).wordTranslate}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small" data-name="right" onClick={onSelect}>Right</Button>
-                  <Button size="small" data-name="wrong" onClick={onSelect}>Wrong</Button>
-                </CardActions>
-              </Card>
-            </div>
+          <div className='content-sprint-page'>
+            <Card className='field-sprint'>
+              <CardContent className='field-sprint-content'>
+                <div>{seconds}</div>
+                <Typography sx={{ mb: 1.5, fontWeight: '900', fontSize: 50, }} >
+                  {(dataWords[numberCurrentWord] as wordInfo).word}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  {(dataWords[numberAnswer] as wordInfo).wordTranslate}
+                </Typography>
+              </CardContent>
+              <CardActions className='field-sprint-buttons'>
+                <button data-name="right" onClick={onSelect}><ArrowBackIcon />Right</button>
+                <button data-name="wrong" onClick={onSelect}>Wrong<ArrowForwardIcon /></button>
+              </CardActions>
+            </Card>
           </div>
-        </div>
-
+        </div >
       )
     } else return null;
   }
