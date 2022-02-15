@@ -58,7 +58,7 @@ const PageResult = (props: PageResultProps) => {
         }}
       >
         <h2 className='sprint-congratulation-result'>{currentDifficultyRightAnswers.length > 10
-          ? 'Congratulations, great result' : 'Not bad, but still room for improvement.'}</h2>
+          ? 'Congratulations, great result!' : 'Not bad, but still room for improvement!'}</h2>
         <h5 className='sprint-title-result'>right: {currentDifficultyRightAnswers.length}</h5>
         {wordRightInfo.flat().map((item, index) => {
           return (

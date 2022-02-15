@@ -22,11 +22,15 @@ const PageSprintSettings = (props: PageSprintSettingsProps) => {
     <div className='content-wrap wrapper-sprint-settings'>
       <h2 className='sprint-title'>Sprint</h2>
       <p className='sprint-info'>"Sprint" is a practice for repeating memorized words from your dictionary.</p>
+      <ul className='sprint-setting-instruction'>
+        <li>You can use the mouse to select.</li>
+        <li>You can use the left or right keys</li>
+      </ul>
       <div className='content-sprint-settings'>
         <Box sx={{ width: 150 }}>
           <FormControl fullWidth variant='standard'>
-            <InputLabel id='demo-simple-select-label' sx={{ color: '#ff0000', fontWeight: '900' }}>difficulty</InputLabel>
-            <Select sx={{ fontSize: '30px', color: '#ff0000', fontWeight: '900' }}
+            <InputLabel id='demo-simple-select-label' sx={{ color: '#ffffff', fontWeight: '900' }}>difficulty</InputLabel>
+            <Select sx={{ fontSize: '30px', color: '#ffffff', fontWeight: '900' }}
               labelId='demo-simple-select-label'
               id='demo-simple-select'
               value={difficulty}
@@ -41,7 +45,7 @@ const PageSprintSettings = (props: PageSprintSettingsProps) => {
             </Select>
           </FormControl>
         </Box>
-        <Button className='button-start' sx={{ color: '#ff0000', fontWeight: '900', fontSize: '20px', border: '5px solid' }} size='large' onClick={onStart}>
+        <Button className='button-start' sx={{ color: '#ffffff', fontWeight: '900', fontSize: '20px', border: '5px solid' }} size='large' onClick={onStart}>
           START
         </Button>
       </div>

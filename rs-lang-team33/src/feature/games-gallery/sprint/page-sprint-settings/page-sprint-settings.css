@@ -23,13 +23,13 @@
   font-size: 150px;
   text-transform: uppercase;
   width: 300px;
-  color: #ff0000;
+  color: #ffffff;
   margin-bottom: 40px;
 }
 
 .sprint-info {
   font-size: 30px;
-  color: #ff0000;
+  color: #ffffff;
   margin-bottom: 40px;
   font-weight: 600;
 }
@@ -37,4 +37,11 @@
 .button-start:hover {
   border: 5px solid;
   color: #031ae5;
+}
+
+.sprint-setting-instruction {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 40px;
+  font-weight: 600;
 }
