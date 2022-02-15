@@ -4,14 +4,15 @@ import { Button, Card, CardActions, CardContent, Typography } from '@mui/materia
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
 import { userInfo } from '../../../types';
-import PageSprintSettings from './page-sprint-settings/page-sprint-settings'
-import PageResult from './page-result/page-result'
+import PageSprintSettings from './page-sprint-settings/page-sprint-settings';
+import PageResult from './page-result/page-result';
 import { userWords, wordInfo } from '../../../types';
 
 import './sprint.css';
 
 const GameSprint = () => {
   const [difficulty, setDifficulty] = useState('1');
+  const [isSignIn, setIsSignIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [isStart, setIsStart] = useState(false);
@@ -43,6 +44,11 @@ const GameSprint = () => {
     else { setNumbersWordList((numbersWordList) => [...numbersWordList, numb]) }
     return numb;
   };
+
+  useEffect(() => {
+    getLocalStorage();
+    userInfo ? setIsSignIn(true) : setIsSignIn(false);
+  }, [])
 
   const onStart = (difficulty: string, isStart: boolean) => {
     setDifficulty(difficulty);
@@ -110,8 +116,22 @@ const GameSprint = () => {
   };
 
   const onSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
-    addUserWord((numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
-      || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong"));
+    const answer = (numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
+    || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong");
+    if (isSignIn) {
+      addUserWord(answer);
+    } else {
+      if (dataWords && dataWords.length > 0) {
+        setUserWordsList((userWordsList) => [...userWordsList, {
+          id: '',
+          difficulty: `${difficulty}`,
+          wordId: `${dataWords[numberCurrentWord].id}`,
+          optional: {
+            sprint: `${answer}`
+        }}])
+      }
+    }
+
 
     if (numbersWordList.length < 20) {
       setNumberCurrentWord(getRandomNumberWord(0, 20));
@@ -142,7 +162,8 @@ const GameSprint = () => {
               }
             }, (userInfo as userInfo).token);
           } else if (Number(error.message) === 401) {
-            // doing login with refreshToken 
+            localStorage.clear();
+            setIsSignIn(false)
           };
         });
     };
@@ -187,7 +208,7 @@ const GameSprint = () => {
 
   const pageSettings = !isStart ? <PageSprintSettings onStart={onStart} /> : null;
   const pageGame = !(isLoading || !dataWords) ? <PageSprint /> : null;
-  const pageResult = userWordsList.length > 0 ? <PageResult userWordsList={userWordsList} difficulty={difficulty} dataWords={dataWords} /> : null;
+  const pageResult = isFinished ? <PageResult userWordsList={userWordsList} difficulty={difficulty} dataWords={dataWords} /> : null;
 
   return (
     <>
