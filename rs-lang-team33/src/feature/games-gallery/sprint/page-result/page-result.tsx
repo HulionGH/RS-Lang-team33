@@ -56,8 +56,9 @@ const PageResult = (props: PageResultProps) => {
           padding: '20px',
           '& ul': { padding: 0 },
         }}
-      > 
-        <h2 className='sprint-congratulation-result'>{currentDifficultyRightAnswers.length > 10 ? 'Congratulations, great result' : 'Not bad, but there is work to be done'}</h2>
+      >
+        <h2 className='sprint-congratulation-result'>{currentDifficultyRightAnswers.length > 10
+          ? 'Congratulations, great result' : 'Not bad, but still room for improvement.'}</h2>
         <h5 className='sprint-title-result'>right: {currentDifficultyRightAnswers.length}</h5>
         {wordRightInfo.flat().map((item, index) => {
           return (

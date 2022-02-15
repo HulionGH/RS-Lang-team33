@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useKey } from 'react-keyboard-hooks'
 import { useSound } from 'use-sound';
 
 import { Card, CardActions, CardContent, Typography } from '@mui/material';
@@ -84,7 +85,7 @@ const GameSprint = () => {
       userWordsLoading();
       clearTimeout(timerId);
     }
-  }, [isFinished])
+  }, [isFinished]);
 
   const countdown = () => {
     const timeoutId = setTimeout(() => {
@@ -126,6 +127,17 @@ const GameSprint = () => {
   const onSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
     const answer = (numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
       || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong");
+    afterSelect(answer);
+  };
+
+  const onSelectByKey = (str: string) => {
+    const answer = (numberCurrentWord === numberAnswer && str === "right")
+      || (numberCurrentWord !== numberAnswer && str === "wrong");
+    afterSelect(answer);
+  };
+
+
+  const afterSelect = (answer: boolean) => {
     answer ? cor() : inCor();
     if (isSignIn) {
       addUserWord(answer);
@@ -142,7 +154,6 @@ const GameSprint = () => {
       }
     }
 
-
     if (numbersWordList.length < 20) {
       setNumberCurrentWord(getRandomNumberWord(0, 20));
     } else {
@@ -152,7 +163,10 @@ const GameSprint = () => {
         clearTimeout(timerId);
       }
     };
-  };
+  }
+
+  useKey('ArrowLeft', () => onSelectByKey('right'));
+  useKey('ArrowRight', () => onSelectByKey('wrong'));
 
   const addUserWord = (answer: boolean) => {
     if (userInfo && dataWords) {
