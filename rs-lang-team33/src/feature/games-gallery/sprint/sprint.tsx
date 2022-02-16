@@ -7,10 +7,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
-import { userInfo } from '../../../types';
 import PageSprintSettings from './page-sprint-settings/page-sprint-settings';
 import PageResult from './page-result/page-result';
-import { userWords, wordInfo } from '../../../types';
+import { IUserWord, IWordCard, IUserInfo } from '../../../interfaces';
 
 import './sprint.css';
 
@@ -21,7 +20,7 @@ const GameSprint = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [isStart, setIsStart] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-  const [dataWords, setDataWords] = useState<wordInfo[] | null>(null);
+  const [dataWords, setDataWords] = useState<IWordCard[] | null>(null);
   const [numberCurrentPage, setNumberCurrentPage] = useState<number>(0);
   const [numberCurrentWord, setNumberCurrentWord] = useState<number>(0);
   const [seconds, setSeconds] = useState(61);
@@ -29,7 +28,7 @@ const GameSprint = () => {
   const [numbersWordList, setNumbersWordList] = useState<number[]>([]);
   const [arrAnswers, setArrAnswers] = useState<number[]>([10, 15]);
   const [numberAnswer, setNumberAnswer] = useState<number>(0);
-  const [userWordsList, setUserWordsList] = useState<userWords[]>([]);
+  const [userWordsList, setUserWordsList] = useState<IUserWord[]>([]);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
   const correct = require('../../../resources/correct.mp3');
@@ -170,21 +169,21 @@ const GameSprint = () => {
 
   const addUserWord = (answer: boolean) => {
     if (userInfo && dataWords) {
-      getWord((userInfo as userInfo).userId, String((dataWords[numberCurrentWord] as wordInfo).id), (userInfo as userInfo).token)
-        .then(() => changeWord((userInfo as userInfo).userId, String((dataWords[numberCurrentWord] as wordInfo).id), {
+      getWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), (userInfo as IUserInfo).token)
+        .then(() => changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
           difficulty: difficulty,
           optional: {
             sprint: answer
           }
-        }, (userInfo as userInfo).token))
+        }, (userInfo as IUserInfo).token))
         .catch((error) => {
           if (Number(error.message) === 404) {
-            setWord((userInfo as userInfo).userId, String((dataWords[numberCurrentWord] as wordInfo).id), {
+            setWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
               difficulty: difficulty,
               optional: {
                 sprint: answer
               }
-            }, (userInfo as userInfo).token);
+            }, (userInfo as IUserInfo).token);
           } else if (Number(error.message) === 401) {
             localStorage.clear();
             setIsSignIn(false)
@@ -195,7 +194,7 @@ const GameSprint = () => {
 
   const userWordsLoading = () => {
     if (userInfo) {
-      getUserWords((userInfo as userInfo).userId, (userInfo as userInfo).token)
+      getUserWords((userInfo as IUserInfo).userId, (userInfo as IUserInfo).token)
         .then((res) => setUserWordsList(res))
         .catch((error) => console.log(error));
     };
@@ -210,10 +209,10 @@ const GameSprint = () => {
               <CardContent className='field-sprint-content'>
                 <div>{seconds}</div>
                 <Typography sx={{ mb: 1.5, fontWeight: '900', fontSize: 50, }} >
-                  {(dataWords[numberCurrentWord] as wordInfo).word}
+                  {(dataWords[numberCurrentWord] as IWordCard).word}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  {(dataWords[numberAnswer] as wordInfo).wordTranslate}
+                  {(dataWords[numberAnswer] as IWordCard).wordTranslate}
                 </Typography>
               </CardContent>
               <CardActions className='field-sprint-buttons'>

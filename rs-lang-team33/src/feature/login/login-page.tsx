@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
 
 import { loginUser } from '../../services/sig-in-up-service';
-import { userInfo } from '../../types';
+import { IUserInfo } from '../../interfaces';
 import "./login-page.css";
 
 const Login = () => {
@@ -44,7 +44,7 @@ const Login = () => {
       .catch((error) => onError(error))
   };
 
-  const setLocalStorage = (userInfo: userInfo) => {
+  const setLocalStorage = (userInfo: IUserInfo) => {
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
   }
 

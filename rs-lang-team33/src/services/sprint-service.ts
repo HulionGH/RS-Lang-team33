@@ -1,5 +1,5 @@
 import { baseURL } from '../constants';
-import { wordType } from '../types';
+import { IWordType } from '../interfaces';
 
 export async function getWords(activePage: number, groupNum: number) {
   const response = await fetch(`${baseURL}words?group=${groupNum}&page=${activePage}`, {
@@ -15,7 +15,7 @@ export async function getWords(activePage: number, groupNum: number) {
   return await response.json();
 };
 
-export async function changeWord(userId: string, wordId: string, wordInfo: wordType, token: string) {
+export async function changeWord(userId: string, wordId: string, wordInfo: IWordType, token: string) {
   const response = await fetch(`${baseURL}users/${userId}/words/${wordId}`, {
     method: 'PUT',
     headers: {
@@ -46,7 +46,7 @@ export async function getWord(userId: string, wordId: string, token: string) {
   return await response.json();
 }
 
-export async function setWord(userId: string, wordId: string, wordInfo: wordType, token: string) {
+export async function setWord(userId: string, wordId: string, wordInfo: IWordType, token: string) {
   const response = await fetch(`${baseURL}users/${userId}/words/${wordId}`, {
     method: 'POST',
     headers: {
