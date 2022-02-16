@@ -17,7 +17,7 @@ const PageResult = (props: IPageResultProps) => {
     setUserWordsList(userWordsList);
     setDifficulty(difficulty);
     setDataWords(dataWords)
-  }, [])
+  }, [props])
 
   const audio = new Audio();
   const startAudio = async (event: React.MouseEvent<SVGSVGElement>) => {

@@ -55,7 +55,6 @@ const GameSprint = () => {
 
   useEffect(() => {
     getLocalStorage();
-    userInfo ? setIsSignIn(true) : setIsSignIn(false);
   }, [])
 
   const onStart = (difficulty: string, isStart: boolean) => {
@@ -68,6 +67,7 @@ const GameSprint = () => {
       setNumberCurrentWord(getRandomNumberWord(0, 20));
       getData();
       getLocalStorage();
+      userInfo ? setIsSignIn(true) : setIsSignIn(false);
     }
   }, [isStart]);
 
