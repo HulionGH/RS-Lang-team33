@@ -1,7 +1,7 @@
 import { baseURL } from '../constants';
-import { userSignUp } from '../types';
+import { IUserSignUp } from '../interfaces';
 
-export async function createUser(user: userSignUp) {
+export async function createUser(user: IUserSignUp) {
   const response = await fetch(`${baseURL}users`, {
     method: 'POST',
     headers: {
@@ -16,7 +16,7 @@ export async function createUser(user: userSignUp) {
   return await response.json();
 }
 
-export async function loginUser(user: userSignUp) {
+export async function loginUser(user: IUserSignUp) {
   const response = await fetch(`${baseURL}signin`, {
     method: 'POST',
     headers: {

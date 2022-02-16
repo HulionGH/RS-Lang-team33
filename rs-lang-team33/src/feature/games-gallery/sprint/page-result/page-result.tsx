@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { List, ListSubheader, Stack } from '@mui/material';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
-import { PageResultProps, userWords, wordInfo } from '../../../../types';
+import { IPageResultProps, IUserWord, IWordCard } from '../../../../interfaces';
 import { baseURL } from '../../../../constants';
 import './page-result.css';
 
-const PageResult = (props: PageResultProps) => {
-  const [userWordsList, setUserWordsList] = useState<userWords[]>([]);
+const PageResult = (props: IPageResultProps) => {
+  const [userWordsList, setUserWordsList] = useState<IUserWord[]>([]);
   const [difficulty, setDifficulty] = useState('1');
-  const [dataWords, setDataWords] = useState<wordInfo[] | null>(null);
+  const [dataWords, setDataWords] = useState<IWordCard[] | null>(null);
 
   useEffect(() => {
     const { userWordsList, difficulty, dataWords } = props;
@@ -30,16 +30,16 @@ const PageResult = (props: PageResultProps) => {
     }
   }
 
-  let wordRightInfo: Array<wordInfo[]> = [];
-  let wordWrongInfo: Array<wordInfo[]> = [];
+  let wordRightInfo: Array<IWordCard[]> = [];
+  let wordWrongInfo: Array<IWordCard[]> = [];
 
   const currentDifficultyRightAnswers = userWordsList.filter((item) => item.difficulty === difficulty
     && (String(item.optional.sprint) === 'true'));
   const currentDifficultyWrongAnswers = userWordsList.filter((item) => item.difficulty === difficulty
     && (String(item.optional.sprint) === 'false'));
-  currentDifficultyRightAnswers.map((item) => wordRightInfo.push((dataWords as wordInfo[])
+  currentDifficultyRightAnswers.map((item) => wordRightInfo.push((dataWords as IWordCard[])
     .filter((i) => String(i.id) === item.wordId)))
-  currentDifficultyWrongAnswers.map((item) => wordWrongInfo.push((dataWords as wordInfo[])
+  currentDifficultyWrongAnswers.map((item) => wordWrongInfo.push((dataWords as IWordCard[])
     .filter((i) => String(i.id) === item.wordId)))
 
   return (
