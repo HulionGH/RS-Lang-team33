@@ -13,8 +13,10 @@ import Stats from "./feature/stats/stats";
 import Home from "./feature/home-page/home-page";
 import Login from "./feature/login/login-page";
 import SignUp from "./feature/sign-up/sign-up-page";
-
+import GameSprint from "./feature/games-gallery/sprint/sprint";
+import GameAudioCall from "./feature/games-gallery/audio-call/audio-call";
 import "./App.css";
+
 
 function App() {
   return (
@@ -32,6 +34,9 @@ function App() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/sign-in" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sprint" element={<GameSprint />} />
+            <Route path="/audion-call" element={<GameAudioCall />} />
+            <Route path="/" element={<GameAudioCall />} />
           </Routes>
         </Box>
       </Box>
