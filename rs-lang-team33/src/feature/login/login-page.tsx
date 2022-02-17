@@ -20,15 +20,18 @@ const Login = () => {
     if (isCanCreating) {
       onSignIn();
     }
-  }, []);
+  }, [isCanCreating]);
+
+  const validateEmail = (email: string) => {
+    var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    return re.test(String(email).toLowerCase());
+  }
 
   const startCreating = () => {
-    setIsCanCreating(true);
-    onSignIn();
+    validateEmail(email) ? setIsCanCreating(true) : setHelperTextEmail("email is not correct");
   }
 
   const onSignIn = () => {
-    // add validation email and password. if invalid don't fetch and show message in helperText
     loginUser({ email: email, password: password })
       .then((res) => {
         setLocalStorage({
