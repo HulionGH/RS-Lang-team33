@@ -37,6 +37,8 @@ const Footer = () => {
           value="HulionGH"
           icon={<GitHubIcon sx={{ width: 32, height: 32 }} />}
         />
+
+        <BottomNavigationAction href="" label="2022" value="2022" />
       </BottomNavigation>
     </Box>
   );
