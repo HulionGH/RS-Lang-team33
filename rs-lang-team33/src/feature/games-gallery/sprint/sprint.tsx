@@ -57,6 +57,11 @@ const GameSprint = () => {
     getLocalStorage();
   }, [])
 
+  useEffect(() => {
+    setDifficulty(difficulty);
+    setIsStart(isStart);
+  }, [])
+
   const onStart = (difficulty: string, isStart: boolean) => {
     setDifficulty(difficulty);
     setIsStart(isStart);

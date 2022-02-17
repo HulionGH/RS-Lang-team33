@@ -44,6 +44,7 @@ const PageResult = (props: IPageResultProps) => {
 
   return (
     <div className='content-wrap wrapper-sprint-page'>
+      {console.log(userWordsList)}
       <List
         className='field-sprint-result'
         sx={{
