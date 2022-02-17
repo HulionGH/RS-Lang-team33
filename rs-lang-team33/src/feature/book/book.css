@@ -8,6 +8,7 @@
   height: 100%;
   width: 100%;
   row-gap: 12px;
+  padding: 8px;
 }
 
 .book-page {
