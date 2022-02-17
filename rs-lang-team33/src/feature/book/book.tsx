@@ -13,6 +13,7 @@ import { ServiceDictionary } from "../../services/dictionary-service";
 import "./book.css";
 import CardWord from "./card";
 import { IWordCard } from "../../interfaces";
+import { useNavigate } from "react-router-dom";
 
 const Book = () => {
   const [group, setGroup] = useState(0);
@@ -30,6 +31,8 @@ const Book = () => {
     }
     fetchWords();
   }, [page, group]);
+
+  let navigate = useNavigate();
 
   return (
     <div className="content-wrap">
@@ -77,8 +80,12 @@ const Book = () => {
             color="primary"
           />
 
-          <Button className="game-btn">AUDIOCALL</Button>
-          <Button className="game-btn">SPRINT</Button>
+          <Button className="game-btn" onClick={() => navigate("/audion-call")}>
+            AUDIOCALL
+          </Button>
+          <Button className="game-btn" onClick={() => navigate("/sprint")}>
+            SPRINT
+          </Button>
         </Box>
 
         <Box
