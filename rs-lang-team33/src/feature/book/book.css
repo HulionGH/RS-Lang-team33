@@ -1,6 +1,5 @@
 .content-book {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0 100%),
-    url("../../resources/5-13.jpg");
+  background-image: linear-gradient(90deg, #efefef, #b9deed);
   background-size: contain;
   background-position: top center;
   background-repeat: no-repeat;
@@ -9,6 +8,7 @@
   height: 100%;
   width: 100%;
   row-gap: 12px;
+  padding: 8px;
 }
 
 .book-page {
@@ -32,7 +32,26 @@
   padding: 10px 10px !important;
   text-align: center !important;
 }
+
+.css-h93ljk-MuiTypography-root {
+  margin: 0 !important;
+  font-size: 1.3rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0 !important;
+}
+
+.css-18k87ye-MuiTypography-root {
+  font-size: 1.2rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.0075em;
+  margin-bottom: 0.2 !important;
+}
+
+.css-9eg9l8-MuiTypography-root {
+  margin-bottom: 2px !important;
+}
+
 .word-card {
-  width: 400px;
-  height: 450px;
+  width: 410px;
+  height: 410px;
 }

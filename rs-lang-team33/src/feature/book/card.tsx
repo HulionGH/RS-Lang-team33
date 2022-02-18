@@ -59,7 +59,7 @@ const CardWord = ({ card }: Props) => {
           dangerouslySetInnerHTML={{ __html: card.textMeaningTranslate || "" }}
         ></Typography>
 
-        <hr />
+        <hr className="hr-medium" />
         <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
           <Typography
             variant="body2"

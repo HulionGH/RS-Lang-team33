@@ -1,9 +1,15 @@
 .content-home {
   background-image: url("../../resources/1.jpg");
-  background-size: inherit;
+  background-size: 70%;
   background-repeat: no-repeat;
-  background-position: bottom;
+  background-position: bottom right;
   display: flex;
   height: 100%;
   width: 100%;
+  padding: 8px;
+}
+.typography-text {
+  color: rgb(11, 11, 78) !important;
+  font-family: "Dancing Script", cursive !important;
+  font-weight: bold;
 }
