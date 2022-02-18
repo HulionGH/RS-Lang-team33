@@ -44,6 +44,7 @@ const PageResult = (props: IPageResultProps) => {
 
   return (
     <div className='content-wrap wrapper-sprint-page'>
+      {console.log(userWordsList)}
       <List
         className='field-sprint-result'
         sx={{
@@ -59,7 +60,7 @@ const PageResult = (props: IPageResultProps) => {
       >
         <h2 className='sprint-congratulation-result'>{currentDifficultyRightAnswers.length > 10
           ? 'Congratulations, great result!' : 'Not bad, but still room for improvement!'}</h2>
-        <h5 className='sprint-title-result'>right: {currentDifficultyRightAnswers.length}</h5>
+        <h5 className='sprint-title-result'>right: {wordRightInfo.length}</h5>
         {wordRightInfo.flat().map((item, index) => {
           return (
             <div key={`${index}`}>
@@ -70,7 +71,7 @@ const PageResult = (props: IPageResultProps) => {
             </div>
           )
         })}
-        <h5 className='sprint-title-result'>wrong: {currentDifficultyWrongAnswers.length}</h5>
+        <h5 className='sprint-title-result'>wrong: {wordWrongInfo.length}</h5>
         {wordWrongInfo.flat().map((item, index) => {
           return (
             <div key={`${index}`}>

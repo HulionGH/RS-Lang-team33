@@ -57,6 +57,11 @@ const GameSprint = () => {
     getLocalStorage();
   }, [])
 
+  useEffect(() => {
+    setDifficulty(difficulty);
+    setIsStart(isStart);
+  }, [])
+
   const onStart = (difficulty: string, isStart: boolean) => {
     setDifficulty(difficulty);
     setIsStart(isStart);
@@ -110,7 +115,7 @@ const GameSprint = () => {
 
     getWords(numberCurrentPage, (Number(difficulty) - 1))
       .then((res) => {
-        setDataWords(res);
+        setDataWords(res.data);
         setIsLoading(false);
         countdown();
       });
@@ -170,23 +175,22 @@ const GameSprint = () => {
   const addUserWord = (answer: boolean) => {
     if (userInfo && dataWords) {
       getWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), (userInfo as IUserInfo).token)
-        .then(() => changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
-          difficulty: difficulty,
-          optional: {
-            sprint: answer
-          }
-        }, (userInfo as IUserInfo).token))
+        .then(() => {
+          changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
+            difficulty: difficulty,
+            optional: {
+              sprint: answer
+            }
+          }, (userInfo as IUserInfo).token)
+        })
         .catch((error) => {
-          if (Number(error.message) === 404) {
+          if (Number(error.message.slice(-3)) === 404) {
             setWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
               difficulty: difficulty,
               optional: {
                 sprint: answer
               }
-            }, (userInfo as IUserInfo).token);
-          } else if (Number(error.message) === 401) {
-            localStorage.clear();
-            setIsSignIn(false)
+            }, (userInfo as IUserInfo).token)
           };
         });
     };
@@ -195,7 +199,7 @@ const GameSprint = () => {
   const userWordsLoading = () => {
     if (userInfo) {
       getUserWords((userInfo as IUserInfo).userId, (userInfo as IUserInfo).token)
-        .then((res) => setUserWordsList(res))
+        .then((res) => setUserWordsList(res.data))
         .catch((error) => console.log(error));
     };
   };
