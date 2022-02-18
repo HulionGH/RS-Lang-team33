@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from 'axios';
 import { baseURL } from '../constants';
 import { IUserInfo, IUserSignUp } from '../interfaces';
 
-const ANOTHER_STATUS_CODE = 'ANOTHER_STATUS_CODE';
 let userInfo: IUserInfo | null = null;
 let instance: AxiosInstance;
 
@@ -56,18 +55,12 @@ export async function getNewToken(userId: string, refreshToken: string) {
       'Content-Type': 'application/json',
     },
   });
-
   console.log(`getNewToken response: ${(await response).data}`);
 
-  // if (!response.ok) {
-  //   throw new Error(`${response.status}`);
-  // }
   return await response;
 }
 
-instance = axios.create({
-  withCredentials: true,
-});
+instance = axios.create({});
 
 axios.interceptors.response.use(
   (response) => {
@@ -77,42 +70,41 @@ axios.interceptors.response.use(
   },
   async (error) => {
     console.log('axios error');
-    let originalConfig = error.config;
-    console.log(originalConfig);
 
-    if (Number(error.message.slice(-3)) === 401) {
+    let originalConfig = error.config;
+    if (error.response.status === 401) {
       console.log('401');
-      getNewToken(
+
+      const res = await getNewToken(
         (userInfo as IUserInfo).userId,
         (userInfo as IUserInfo).refreshToken
       )
-        .then((res) => {
-          console.log('create newUser and setLocalStorage');
+      console.log(res.status);
 
-          setLocalStorage({
-            name: res.data.name,
-            email: res.data.name,
-            message: res.data.message,
-            token: res.data.token,
-            refreshToken: res.data.refreshToken,
-            userId: res.data.userId,
-          });
-        })
-        .catch(() => {
-          localStorage.clear();
+      if (res && res.status === 200) {
+        console.log('create newUser and setLocalStorage');
+        console.log('create new Config');
+
+        setLocalStorage({
+          name: res.data.name,
+          email: res.data.name,
+          message: res.data.message,
+          token: res.data.token,
+          refreshToken: res.data.refreshToken,
+          userId: res.data.userId,
         });
-      console.log('create new Config');
-      originalConfig = {
-        ...originalConfig,
-        headers: {
-          ...originalConfig.headers,
-          Authorization: `Bearer ${userInfo?.token}`,
-        },
-      };
+        originalConfig = {
+          ...originalConfig,
+          headers: {
+            ...originalConfig.headers,
+            Authorization: `Bearer ${userInfo?.token}`,
+          },
+        };
+      }
       console.log('return instance(originalConfig)');
+
       return instance(originalConfig);
     }
-
     return Promise.reject(error);
   }
 );
