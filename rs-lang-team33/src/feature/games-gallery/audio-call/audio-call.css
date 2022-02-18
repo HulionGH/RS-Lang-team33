@@ -1,0 +1,7 @@
+.wrapper-audio-call-game {
+  background-image: url('../../../resources/background-audio-call.jpg');
+}
+
+.audio-call-speaker:hover {
+  color: #21cbf3;
+}

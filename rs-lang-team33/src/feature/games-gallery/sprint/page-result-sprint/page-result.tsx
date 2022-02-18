@@ -43,7 +43,7 @@ const PageResult = (props: IPageResultProps) => {
     .filter((i) => String(i.id) === item.wordId)))
 
   return (
-    <div className='content-wrap wrapper-sprint-page'>
+    <div className='content-wrap wrapper-sprint-game wrapper-pages-games'>
       {console.log(userWordsList)}
       <List
         className='field-sprint-result'

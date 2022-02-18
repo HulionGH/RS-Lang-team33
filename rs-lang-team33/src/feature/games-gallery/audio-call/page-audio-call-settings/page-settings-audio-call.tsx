@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { PageSettingsProps } from '../../../../types';
 
-import './page-sprint-settings.css';
+import './page-settings-audio-call.css';
 
-const PageSprintSettings = (props: PageSettingsProps) => {
+const PageAudioCallSettings = (props: PageSettingsProps) => {
   const [isStart, setIsStart] = useState(false);
   const [difficulty, setDifficulty] = useState('1');
 
@@ -19,12 +19,11 @@ const PageSprintSettings = (props: PageSettingsProps) => {
   };
 
   return (
-    <div className='content-wrap wrapper-pages-games wrapper-settings-sprint'>
-      <h2 className='title-games'>Sprint</h2>
-      <p className='info-games'>"Sprint" is a practice for repeating memorized words from your dictionary.</p>
+    <div className='content-wrap wrapper-pages-games wrapper-settings-audio-call'>
+      <h2 className='title-games'>AudioCall</h2>
+      <p className='info-games'>Training with "AudioCall" improves listening comprehension.</p>
       <ul className='games-setting-instruction'>
         <li>You can use the mouse to select.</li>
-        <li>You can use the left or right keys</li>
       </ul>
       <div className='content-settings-games'>
         <Box sx={{ width: 150 }}>
@@ -53,4 +52,4 @@ const PageSprintSettings = (props: PageSettingsProps) => {
   );
 };
 
-export default PageSprintSettings;
+export default PageAudioCallSettings;

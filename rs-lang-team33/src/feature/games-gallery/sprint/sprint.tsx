@@ -8,7 +8,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
 import PageSprintSettings from './page-sprint-settings/page-sprint-settings';
-import PageResult from './page-result/page-result';
+import PageResult from './page-result-sprint/page-result';
 import { IUserWord, IWordCard, IUserInfo } from '../../../interfaces';
 
 import './sprint.css';
@@ -57,17 +57,12 @@ const GameSprint = () => {
     getLocalStorage();
   }, [])
 
-  useEffect(() => {
-    setDifficulty(difficulty);
-    setIsStart(isStart);
-  }, [])
-
   const onStart = (difficulty: string, isStart: boolean) => {
     setDifficulty(difficulty);
     setIsStart(isStart);
   }
 
-  useEffect(() => {
+  useEffect(() => { 
     if (isStart) {
       setNumberCurrentWord(getRandomNumberWord(0, 20));
       getData();
@@ -140,7 +135,6 @@ const GameSprint = () => {
     afterSelect(answer);
   };
 
-
   const afterSelect = (answer: boolean) => {
     answer ? cor() : inCor();
     if (isSignIn) {
@@ -207,24 +201,22 @@ const GameSprint = () => {
   const PageSprint = () => {
     if (dataWords) {
       return (
-        <div className='content-wrap wrapper-sprint-page'>
-          <div className='content-sprint-page'>
-            <Card className='field-sprint'>
-              <CardContent className='field-sprint-content'>
-                <div>{seconds}</div>
-                <Typography sx={{ mb: 1.5, fontWeight: '900', fontSize: 50, }} >
-                  {(dataWords[numberCurrentWord] as IWordCard).word}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  {(dataWords[numberAnswer] as IWordCard).wordTranslate}
-                </Typography>
-              </CardContent>
-              <CardActions className='field-sprint-buttons'>
-                <button data-name="right" onClick={onSelect}><ArrowBackIcon />Right</button>
-                <button data-name="wrong" onClick={onSelect}>Wrong<ArrowForwardIcon /></button>
-              </CardActions>
-            </Card>
-          </div>
+        <div className='content-wrap wrapper-pages-games wrapper-sprint-game'>
+          <Card className='field-sprint'>
+            <CardContent className='field-sprint-content'>
+              <div>{seconds}</div>
+              <Typography sx={{ mb: 1.5, fontWeight: '900', fontSize: 50, }} >
+                {(dataWords[numberCurrentWord] as IWordCard).word}
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                {(dataWords[numberAnswer] as IWordCard).wordTranslate}
+              </Typography>
+            </CardContent>
+            <CardActions className='field-sprint-buttons'>
+              <button data-name="right" onClick={onSelect}><ArrowBackIcon />Right</button>
+              <button data-name="wrong" onClick={onSelect}>Wrong<ArrowForwardIcon /></button>
+            </CardActions>
+          </Card>
         </div >
       )
     } else return null;

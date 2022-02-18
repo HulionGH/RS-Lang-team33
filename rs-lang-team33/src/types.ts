@@ -1,3 +1,3 @@
-export type PageSprintSettingsProps = {
+export type PageSettingsProps = {
   onStart: (difficulty: string, isStart: boolean) => void;
 };

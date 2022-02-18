@@ -53,11 +53,53 @@ body {
   /* padding: 8px; */
 }
 
+.wrapper-pages-games {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.content-settings-games {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 300px;
+  gap: 20px;
+}
+
+.games-setting-instruction {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
 .main-title {
   color: #1976d2;
   font-family: "Dancing Script" !important;
   font-size: 24px;
   text-transform: uppercase;
+}
+
+.title-games {
+  display: flex;
+  justify-content: center;
+  font-family: "Dancing Script" !important;
+  font-size: 150px;
+  text-transform: uppercase;
+  width: 300px;
+  color: #ffffff;
+  margin-bottom: 40px;
+}
+
+.info-games {
+  font-size: 30px;
+  color: #ffffff;
+  margin-bottom: 40px;
+  font-weight: 600;
 }
 
 .game-btn {
@@ -69,6 +111,11 @@ body {
   height: 42px;
   width: 88px;
   padding: 0 30px;
+}
+
+.button-start:hover {
+  border: 5px solid;
+  color: #031ae5;
 }
 
 .hr-medium {
