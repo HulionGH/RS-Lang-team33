@@ -1,8 +1,16 @@
 .school-logo {
-  padding: 6px 24px 8px 12px;
+  padding: 0px 24px 0px 0px;
 }
 
 .css-imwso6-MuiBottomNavigationAction-label {
   font-size: 2rem;
   opacity: 1;
+}
+.MuiBottomNavigation-root {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.css-1ee5err-MuiButtonBase-root-MuiBottomNavigationAction-root {
+  padding: 0px !important;
 }
