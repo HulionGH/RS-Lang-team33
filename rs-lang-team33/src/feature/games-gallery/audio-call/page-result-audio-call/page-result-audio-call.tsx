@@ -34,19 +34,18 @@ const PageResultAudioCall = (props: IPageResultProps) => {
   let wordWrongInfo: Array<IWordCard[]> = [];
 
   const currentDifficultyRightAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-    && (String(item.optional.sprint) === 'true'));
+    && (String(item.optional.audioCall) === 'true'));
   const currentDifficultyWrongAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-    && (String(item.optional.sprint) === 'false'));
+    && (String(item.optional.audioCall) === 'false'));
   currentDifficultyRightAnswers.map((item) => wordRightInfo.push((dataWords as IWordCard[])
     .filter((i) => String(i.id) === item.wordId)))
   currentDifficultyWrongAnswers.map((item) => wordWrongInfo.push((dataWords as IWordCard[])
     .filter((i) => String(i.id) === item.wordId)))
 
   return (
-    <div className='content-wrap '>
-      {console.log(userWordsList)}
+    <div className='content-wrap wrapper-audio-call-game wrapper-pages-games'>
       <List
-        className='field-sprint-result'
+        className='field-game-result'
         sx={{
           width: '100%',
           maxWidth: 500,
@@ -58,9 +57,9 @@ const PageResultAudioCall = (props: IPageResultProps) => {
           '& ul': { padding: 0 },
         }}
       >
-        <h2 className='sprint-congratulation-result'>{currentDifficultyRightAnswers.length > 10
+        <h2 className='game-congratulation-result'>{currentDifficultyRightAnswers.length > 10
           ? 'Congratulations, great result!' : 'Not bad, but still room for improvement!'}</h2>
-        <h5 className='sprint-title-result'>right: {wordRightInfo.length}</h5>
+        <h5 className='game-title-result'>right: {wordRightInfo.length}</h5>
         {wordRightInfo.flat().map((item, index) => {
           return (
             <div key={`${index}`}>
@@ -71,7 +70,7 @@ const PageResultAudioCall = (props: IPageResultProps) => {
             </div>
           )
         })}
-        <h5 className='sprint-title-result'>wrong: {wordWrongInfo.length}</h5>
+        <h5 className='game-title-result'>wrong: {wordWrongInfo.length}</h5>
         {wordWrongInfo.flat().map((item, index) => {
           return (
             <div key={`${index}`}>
@@ -84,7 +83,6 @@ const PageResultAudioCall = (props: IPageResultProps) => {
         })}
       </List>
     </div >
-
   );
 };
 

@@ -87,12 +87,12 @@ axios.interceptors.response.use(
           console.log('create new Config');
   
           setLocalStorage({
-            name: res.data.name,
-            email: res.data.name,
-            message: res.data.message,
+            name: (userInfo as IUserInfo).name,
+            email: (userInfo as IUserInfo).email,
+            message: (userInfo as IUserInfo).message,
             token: res.data.token,
             refreshToken: res.data.refreshToken,
-            userId: res.data.userId,
+            userId: (userInfo as IUserInfo).userId,
           });
           originalConfig = {
             ...originalConfig,

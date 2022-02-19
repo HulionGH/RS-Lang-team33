@@ -123,3 +123,22 @@ body {
   margin-top: 4px;
   margin-bottom: 6px;
 }
+
+.field-game-result {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-title-result,
+.game-congratulation-result {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.game-title-result {
+  color: rgb(0, 139, 0);
+}
+
+.game-title-result:last-of-type {
+  color: rgb(255, 0, 0);
+}
