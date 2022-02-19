@@ -3,6 +3,9 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -27,7 +30,17 @@ const Word = ({ card }: Props) => {
     <Card sx={{}}>
       <CardContent>
         <CardMedia component="img" height="150" image={imgSrc} alt="xx" />
-        <Button size="small">Difficult word</Button>
+
+        <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
+          <FormControlLabel
+            control={<Checkbox size="small" />}
+            label="DIFFICULT"
+          />
+          <FormControlLabel
+            control={<Checkbox size="small" />}
+            label="LEARNED"
+          />
+        </FormGroup>
       </CardContent>
       <CardContent>
         <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>

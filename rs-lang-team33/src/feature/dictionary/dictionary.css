@@ -22,3 +22,25 @@
   width: 600px;
   max-height: 350px;
 }
+
+.css-19kzrtu {
+  padding: 4px !important;
+}
+
+.css-r24u9n {
+  padding-bottom: 4px !important;
+}
+
+.css-46bh2p-MuiCardContent-root:last-child {
+  max-width: 56% !important;
+}
+
+.css-ahj2mt-MuiTypography-root {
+  font-size: 0.8rem !important;
+  line-height: 1;
+  color: #1976d2;
+}
+
+.css-46bh2p-MuiCardContent-root {
+  padding: 7px !important;
+}

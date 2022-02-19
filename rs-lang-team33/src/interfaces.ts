@@ -13,6 +13,8 @@ export interface IWordCard {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  difficult?: boolean;
+  learned?: boolean;
 }
 export interface IUserWord {
   id: string;
