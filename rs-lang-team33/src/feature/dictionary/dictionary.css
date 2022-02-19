@@ -4,6 +4,21 @@
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
+  flex-direction: column;
+  padding: 8px;
   height: 100%;
   width: 100%;
+}
+
+.css-v4l4jj-MuiPaper-root-MuiCard-root {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.css-bhp9pd-MuiPaper-root-MuiCard-root {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  display: flex;
+  width: 600px;
+  max-height: 350px;
 }

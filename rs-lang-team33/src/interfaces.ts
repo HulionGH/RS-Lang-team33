@@ -14,7 +14,6 @@ export interface IWordCard {
   textMeaningTranslate: string;
   textExampleTranslate: string;
 }
-
 export interface IUserWord {
   id: string;
   difficulty: string;
@@ -23,13 +22,13 @@ export interface IUserWord {
     sprint?: string;
     audioCall?: string;
   };
-};
+}
 
 export interface IPageResultProps {
   userWordsList: IUserWord[];
   difficulty: string;
   dataWords: IWordCard[] | null;
-};
+}
 
 export interface IWordType {
   difficulty: string;
@@ -37,13 +36,13 @@ export interface IWordType {
     sprint?: boolean;
     audioCall?: boolean;
   };
-};
+}
 
 export interface IUserSignUp {
   name?: string;
   email: string;
   password: string;
-};
+}
 
 export interface IUserInfo {
   name: string;
@@ -52,4 +51,4 @@ export interface IUserInfo {
   token: string;
   refreshToken: string;
   userId: string;
-};
+}

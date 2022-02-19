@@ -1,13 +1,18 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { baseURL } from "../../constants";
 import { IWordCard } from "../../interfaces";
-import "./book.css";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 interface Props {
   card: IWordCard;
 }
-const CardWord = ({ card }: Props) => {
+const Word = ({ card }: Props) => {
   const imgSrc = `${baseURL}${card.image}`;
   const audioSrc = `${baseURL}${card.audio}`;
   const audioMeanSrc = `${baseURL}${card.audioMeaning}`;
@@ -19,25 +24,29 @@ const CardWord = ({ card }: Props) => {
   };
 
   return (
-    <Card className="word-card" sx={{ maxWidth: 345 }}>
-      <CardMedia component="img" alt="XX" height="180" image={imgSrc} />
+    <Card sx={{}}>
+      <CardContent>
+        <CardMedia component="img" height="150" image={imgSrc} alt="xx" />
+        <Button size="small">Difficult word</Button>
+      </CardContent>
       <CardContent>
         <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
           <Typography gutterBottom variant="h5" component="div">
             {card.word}
           </Typography>
+          <p> - </p>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {card.transcription}
+          </Typography>
+          <p> - </p>
+          <Typography gutterBottom variant="h6" component="div">
+            {card.wordTranslate}
           </Typography>
           <VolumeDownIcon
             sx={{ height: 20, width: 20 }}
             onClick={() => start(audioSrc)}
           />
         </Box>
-
-        <Typography gutterBottom variant="h6" component="div">
-          {card.wordTranslate}
-        </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
           <Typography
@@ -79,4 +88,4 @@ const CardWord = ({ card }: Props) => {
   );
 };
 
-export default CardWord;
+export default Word;
