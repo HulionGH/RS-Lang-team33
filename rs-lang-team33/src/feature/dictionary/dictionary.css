@@ -4,6 +4,41 @@
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
+  flex-direction: column;
+  padding: 8px;
   height: 100%;
   width: 100%;
+}
+
+.css-v4l4jj-MuiPaper-root-MuiCard-root {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.word-content {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  display: flex;
+}
+
+.css-19kzrtu {
+  padding: 4px !important;
+}
+
+.css-r24u9n {
+  padding-bottom: 4px !important;
+}
+
+.left-content {
+  max-width: 56% !important;
+}
+
+.css-ahj2mt-MuiTypography-root {
+  font-size: 0.8rem !important;
+  line-height: 1;
+  color: #1976d2;
+}
+
+.css-46bh2p-MuiCardContent-root {
+  padding: 7px !important;
 }

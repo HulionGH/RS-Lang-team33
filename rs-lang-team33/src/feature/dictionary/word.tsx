@@ -1,13 +1,22 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { baseURL } from "../../constants";
 import { IWordCard } from "../../interfaces";
-import "./book.css";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 interface Props {
   card: IWordCard;
+  toggleProp: (w: IWordCard, name: "difficult" | "learned") => void;
 }
-const CardWord = ({ card }: Props) => {
+const Word = ({ card, toggleProp }: Props) => {
   const imgSrc = `${baseURL}${card.image}`;
   const audioSrc = `${baseURL}${card.audio}`;
   const audioMeanSrc = `${baseURL}${card.audioMeaning}`;
@@ -18,26 +27,57 @@ const CardWord = ({ card }: Props) => {
     audio.play();
   };
 
+  const setLearned = () => {
+    card.learned = !card.learned;
+  };
+
   return (
-    <Card className="word-card" sx={{ maxWidth: 345 }}>
-      <CardMedia component="img" alt="XX" height="180" image={imgSrc} />
-      <CardContent>
+    <Card sx={{ width: 600, maxHeight: 350 }} className="word-content">
+      <CardContent className="right-content">
+        <CardMedia component="img" height="150" image={imgSrc} alt="xx" />
+
+        <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                size="small"
+                checked={!!card.difficult}
+                onChange={() => toggleProp(card, "difficult")}
+              />
+            }
+            label="DIFFICULT"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                size="small"
+                checked={!!card.learned}
+                onChange={() => toggleProp(card, "learned")}
+              />
+            }
+            onClick={() => setLearned()}
+            label="LEARNED"
+          />
+        </FormGroup>
+      </CardContent>
+      <CardContent className="left-content">
         <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
           <Typography gutterBottom variant="h5" component="div">
             {card.word}
           </Typography>
+          <div> - </div>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {card.transcription}
+          </Typography>
+          <div> - </div>
+          <Typography gutterBottom variant="h6" component="div">
+            {card.wordTranslate}
           </Typography>
           <VolumeDownIcon
             sx={{ height: 20, width: 20 }}
             onClick={() => start(audioSrc)}
           />
         </Box>
-
-        <Typography gutterBottom variant="h6" component="div">
-          {card.wordTranslate}
-        </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
           <Typography
@@ -79,4 +119,4 @@ const CardWord = ({ card }: Props) => {
   );
 };
 
-export default CardWord;
+export default Word;
