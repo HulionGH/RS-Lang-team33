@@ -163,7 +163,49 @@ const Dictionary = () => {
           </Box>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              width: "100%",
+              columnGap: "8px",
+            }}
+          >
+            <Pagination
+              count={30}
+              page={page}
+              onChange={(e, value) => setPage(value)}
+              color="primary"
+            />
+
+            <Button
+              className="game-btn"
+              onClick={() => navigate("/audion-call")}
+            >
+              AUDIOCALL
+            </Button>
+            <Button className="game-btn" onClick={() => navigate("/sprint")}>
+              SPRINT
+            </Button>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Box className="book-page">
+              {words.map((word) => {
+                if (word.learned) {
+                  return <Word key={word.id} card={word} />;
+                }
+              })}
+            </Box>
+          </Box>
         </TabPanel>
       </div>
     </div>

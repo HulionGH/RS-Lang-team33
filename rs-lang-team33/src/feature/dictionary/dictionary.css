@@ -15,12 +15,10 @@
   flex-direction: row-reverse;
 }
 
-.css-bhp9pd-MuiPaper-root-MuiCard-root {
+.word-content {
   flex-direction: row-reverse;
   justify-content: space-between;
   display: flex;
-  width: 600px;
-  max-height: 350px;
 }
 
 .css-19kzrtu {
@@ -31,7 +29,7 @@
   padding-bottom: 4px !important;
 }
 
-.css-46bh2p-MuiCardContent-root:last-child {
+.left-content {
   max-width: 56% !important;
 }
 

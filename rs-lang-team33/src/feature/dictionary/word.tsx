@@ -26,23 +26,36 @@ const Word = ({ card }: Props) => {
     audio.play();
   };
 
+  const setDifficult = () => {
+    if (!card.difficult) {
+      card.difficult = true;
+    }
+  };
+  const setLearned = () => {
+    if (!card.learned) {
+      card.learned = true;
+    }
+  };
+
   return (
-    <Card sx={{}}>
-      <CardContent>
+    <Card sx={{ width: 600, maxHeight: 350 }} className="word-content">
+      <CardContent className="right-content">
         <CardMedia component="img" height="150" image={imgSrc} alt="xx" />
 
         <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
           <FormControlLabel
             control={<Checkbox size="small" />}
+            onClick={() => setDifficult()}
             label="DIFFICULT"
           />
           <FormControlLabel
             control={<Checkbox size="small" />}
+            onClick={() => setLearned()}
             label="LEARNED"
           />
         </FormGroup>
       </CardContent>
-      <CardContent>
+      <CardContent className="left-content">
         <Box sx={{ display: "flex", flexDirection: "row", columnGap: "6px" }}>
           <Typography gutterBottom variant="h5" component="div">
             {card.word}
