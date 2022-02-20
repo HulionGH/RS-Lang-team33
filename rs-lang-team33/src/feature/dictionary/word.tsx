@@ -14,8 +14,9 @@ import { IWordCard } from "../../interfaces";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 interface Props {
   card: IWordCard;
+  toggleProp: (w: IWordCard, name: "difficult" | "learned") => void;
 }
-const Word = ({ card }: Props) => {
+const Word = ({ card, toggleProp }: Props) => {
   const imgSrc = `${baseURL}${card.image}`;
   const audioSrc = `${baseURL}${card.audio}`;
   const audioMeanSrc = `${baseURL}${card.audioMeaning}`;
@@ -26,9 +27,6 @@ const Word = ({ card }: Props) => {
     audio.play();
   };
 
-  const setDifficult = () => {
-    card.difficult = !card.difficult;
-  };
   const setLearned = () => {
     card.learned = !card.learned;
   };
@@ -40,12 +38,23 @@ const Word = ({ card }: Props) => {
 
         <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
           <FormControlLabel
-            control={<Checkbox size="small" checked={card.difficult} />}
-            onClick={() => setDifficult()}
+            control={
+              <Checkbox
+                size="small"
+                checked={!!card.difficult}
+                onChange={() => toggleProp(card, "difficult")}
+              />
+            }
             label="DIFFICULT"
           />
           <FormControlLabel
-            control={<Checkbox size="small" checked={card.learned} />}
+            control={
+              <Checkbox
+                size="small"
+                checked={!!card.learned}
+                onChange={() => toggleProp(card, "learned")}
+              />
+            }
             onClick={() => setLearned()}
             label="LEARNED"
           />

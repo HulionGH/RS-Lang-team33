@@ -60,6 +60,14 @@ const Dictionary = () => {
     setValue(newValue);
   };
 
+  const toggleProp = (card: IWordCard, propName: "difficult" | "learned") => {
+    const word = words.find((w) => w.id === card.id);
+    if (word) {
+      word[propName] = !word[propName];
+    }
+    setWords([...words]);
+  };
+
   return (
     <div className="content-wrap">
       <div className="content-dictionary">
@@ -114,7 +122,9 @@ const Dictionary = () => {
           >
             <Box className="book-page">
               {words.map((word) => {
-                return <Word key={word.id} card={word} />;
+                return (
+                  <Word key={word.id} card={word} toggleProp={toggleProp} />
+                );
               })}
             </Box>
           </Box>
@@ -152,7 +162,9 @@ const Dictionary = () => {
               {words
                 .filter((word) => word.difficult)
                 .map((word) => {
-                  return <Word key={word.id} card={word} />;
+                  return (
+                    <Word key={word.id} card={word} toggleProp={toggleProp} />
+                  );
                 })}
             </Box>
           </Box>
@@ -197,7 +209,9 @@ const Dictionary = () => {
               {words
                 .filter((word) => word.learned)
                 .map((word) => {
-                  return <Word key={word.id} card={word} />;
+                  return (
+                    <Word key={word.id} card={word} toggleProp={toggleProp} />
+                  );
                 })}
             </Box>
           </Box>
