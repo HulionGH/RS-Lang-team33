@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
 import { useKey } from 'react-keyboard-hooks'
 import { useSound } from 'use-sound';
 
@@ -8,7 +9,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
 import PageSprintSettings from './page-sprint-settings/page-sprint-settings';
-import PageResult from './page-result/page-result';
+import PageResult from './page-result-sprint/page-result';
 import { IUserWord, IWordCard, IUserInfo } from '../../../interfaces';
 
 import './sprint.css';
@@ -30,6 +31,7 @@ const GameSprint = () => {
   const [numberAnswer, setNumberAnswer] = useState<number>(0);
   const [userWordsList, setUserWordsList] = useState<IUserWord[]>([]);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const [isKnow, setIsKnow] = useState<boolean>(false);
 
   const correct = require('../../../resources/correct.mp3');
   const incorrect = require('../../../resources/incorrect.mp3');
@@ -57,11 +59,6 @@ const GameSprint = () => {
     getLocalStorage();
   }, [])
 
-  useEffect(() => {
-    setDifficulty(difficulty);
-    setIsStart(isStart);
-  }, [])
-
   const onStart = (difficulty: string, isStart: boolean) => {
     setDifficulty(difficulty);
     setIsStart(isStart);
@@ -83,6 +80,10 @@ const GameSprint = () => {
   useEffect(() => {
     setNumberAnswer(arrAnswers[Math.floor(Math.random() * 2)]);
   }, [arrAnswers]);
+
+  useEffect(() => {
+
+  })
 
   useEffect(() => {
     if (isFinished && timerId) {
@@ -129,21 +130,21 @@ const GameSprint = () => {
   };
 
   const onSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const answer = (numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
-      || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong");
+    const answer = `${(numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
+      || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong")}`;
     afterSelect(answer);
   };
 
   const onSelectByKey = (str: string) => {
-    const answer = (numberCurrentWord === numberAnswer && str === "right")
-      || (numberCurrentWord !== numberAnswer && str === "wrong");
+    const answer = `${(numberCurrentWord === numberAnswer && str === "right")
+      || (numberCurrentWord !== numberAnswer && str === "wrong")}`;
     afterSelect(answer);
   };
 
-
-  const afterSelect = (answer: boolean) => {
+  const afterSelect = (answer: string) => {
     answer ? cor() : inCor();
     if (isSignIn) {
+      setIsLoading(true);
       addUserWord(answer);
     } else {
       if (dataWords && dataWords.length > 0) {
@@ -172,16 +173,16 @@ const GameSprint = () => {
   useKey('ArrowLeft', () => onSelectByKey('right'));
   useKey('ArrowRight', () => onSelectByKey('wrong'));
 
-  const addUserWord = (answer: boolean) => {
+  const addUserWord = (answer: string) => {
     if (userInfo && dataWords) {
       getWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), (userInfo as IUserInfo).token)
-        .then(() => {
-          changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
-            difficulty: difficulty,
-            optional: {
-              sprint: answer
-            }
-          }, (userInfo as IUserInfo).token)
+        .then((res) => {
+            changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
+              difficulty: difficulty,
+              optional: {
+                ...res.data.optional, sprint: answer,
+              }
+            }, (userInfo as IUserInfo).token)
         })
         .catch((error) => {
           if (Number(error.message.slice(-3)) === 404) {
@@ -194,6 +195,7 @@ const GameSprint = () => {
           };
         });
     };
+    setIsLoading(false);
   };
 
   const userWordsLoading = () => {
@@ -207,24 +209,22 @@ const GameSprint = () => {
   const PageSprint = () => {
     if (dataWords) {
       return (
-        <div className='content-wrap wrapper-sprint-page'>
-          <div className='content-sprint-page'>
-            <Card className='field-sprint'>
-              <CardContent className='field-sprint-content'>
-                <div>{seconds}</div>
-                <Typography sx={{ mb: 1.5, fontWeight: '900', fontSize: 50, }} >
-                  {(dataWords[numberCurrentWord] as IWordCard).word}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  {(dataWords[numberAnswer] as IWordCard).wordTranslate}
-                </Typography>
-              </CardContent>
-              <CardActions className='field-sprint-buttons'>
-                <button data-name="right" onClick={onSelect}><ArrowBackIcon />Right</button>
-                <button data-name="wrong" onClick={onSelect}>Wrong<ArrowForwardIcon /></button>
-              </CardActions>
-            </Card>
-          </div>
+        <div className='content-wrap wrapper-pages-games wrapper-sprint-game'>
+          <Card className='field-sprint'>
+            <CardContent className='field-sprint-content'>
+              <div>{seconds}</div>
+              <Typography sx={{ mb: 1.5, fontWeight: '900', fontSize: 50, }} >
+                {(dataWords[numberCurrentWord] as IWordCard).word}
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                {(dataWords[numberAnswer] as IWordCard).wordTranslate}
+              </Typography>
+            </CardContent>
+            <CardActions className='field-sprint-buttons'>
+              <button data-name="right" onClick={onSelect}><ArrowBackIcon />Right</button>
+              <button data-name="wrong" onClick={onSelect}>Wrong<ArrowForwardIcon /></button>
+            </CardActions>
+          </Card>
         </div >
       )
     } else return null;

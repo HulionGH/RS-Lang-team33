@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { useNavigate } from "react-router-dom";
 import { baseURL } from '../constants';
 import { IUserInfo, IUserSignUp } from '../interfaces';
 
@@ -47,20 +48,19 @@ export async function loginUser(user: IUserSignUp) {
 }
 
 export async function getNewToken(userId: string, refreshToken: string) {
-  const response = axios.get(`${baseURL}users/${userId}`, {
+  const response = axios.get(`${baseURL}users/${userId}/tokens`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${refreshToken}`,
       'Content-Type': 'application/json',
     },
-  });
-  console.log(`getNewToken response: ${(await response).data}`);
-
+  });  
   return await response;
 }
 
 instance = axios.create({});
+
 
 axios.interceptors.response.use(
   (response) => {
@@ -74,25 +74,37 @@ axios.interceptors.response.use(
     let originalConfig = error.config;
     if (error.response.status === 401) {
       console.log('401');
+      console.log((userInfo as IUserInfo).userId);
+      console.log((userInfo as IUserInfo).refreshToken);
 
-      const res = await getNewToken(
+      getNewToken(
         (userInfo as IUserInfo).userId,
         (userInfo as IUserInfo).refreshToken
-      )
-      console.log(res.status);
+      ).then((res) => {
+        console.log(res);
 
-      if (res && res.status === 200) {
-        console.log('create newUser and setLocalStorage');
-        console.log('create new Config');
+        if (res && res.status === 200) {
+          console.log('create newUser and setLocalStorage');
+          console.log('create new Config');
+  
+          setLocalStorage({
+            name: (userInfo as IUserInfo).name,
+            email: (userInfo as IUserInfo).email,
+            message: (userInfo as IUserInfo).message,
+            token: res.data.token,
+            refreshToken: res.data.refreshToken,
+            userId: (userInfo as IUserInfo).userId,
+          });
+        }
+        if (res && res.status === 401) {
+          console.log('401 in getNewToken');
 
-        setLocalStorage({
-          name: res.data.name,
-          email: res.data.name,
-          message: res.data.message,
-          token: res.data.token,
-          refreshToken: res.data.refreshToken,
-          userId: res.data.userId,
-        });
+          localStorage.clear();
+          const navigate = useNavigate();
+          navigate("/sign-in")
+          console.log('navigate to sign-in');
+        }
+      }).then(() => {
         originalConfig = {
           ...originalConfig,
           headers: {
@@ -100,10 +112,13 @@ axios.interceptors.response.use(
             Authorization: `Bearer ${userInfo?.token}`,
           },
         };
-      }
-      console.log('return instance(originalConfig)');
-
-      return instance(originalConfig);
+        console.log('return instance(originalConfig)');
+        return instance(originalConfig);
+      }).catch(() => {
+        localStorage.clear();
+        let navigate = useNavigate();
+        navigate("/sign-in")
+      })
     }
     return Promise.reject(error);
   }

@@ -1,0 +1,52 @@
+.wrapper-audio-call-game {
+  background-image: url('../../../resources/background-audio-call.jpg');
+}
+
+.field-audio-call-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.audio-call-speaker:hover {
+  color: #2196f3 !important;
+  background-color: rgba(228, 240, 240, 0.5) !important;
+}
+
+.audio-call-speaker::before {
+
+  background-color: red !important;
+}
+
+.audio-call-answer-list {
+  display: flex;
+  gap: 15px;
+}
+
+.audio-call-answer-item {
+  list-style-type: none;
+  margin-bottom: 40px;
+}
+
+.audio-call-answer-item:hover {
+  background-color: rgba(228, 240, 240, 0.5);
+}
+
+.audio-call-text-button {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 25px !important;
+}
+
+.audio-call-text-button-wrong {
+  color: red !important;
+  text-decoration: line-through !important;
+}
+
+.audio-call-text-button-right {
+  color: green !important;
+}
+
+.audio-call-text-button-another {
+  opacity: 0.6;
+}

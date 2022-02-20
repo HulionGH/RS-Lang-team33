@@ -1,10 +1,5 @@
-.wrapper-sprint-page {
-  justify-content: center;
-  align-items: center;
+.wrapper-sprint-game {
   background-image: url('../../../resources/background-sprint.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .field-sprint {
