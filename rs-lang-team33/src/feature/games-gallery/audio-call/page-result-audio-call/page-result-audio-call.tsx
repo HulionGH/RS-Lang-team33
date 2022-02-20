@@ -67,8 +67,7 @@ const PageResultAudioCall = (props: IPageResultProps) => {
                 <VolumeUpIcon data-id={item.id} onClick={startAudio} />
                 {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
               </Stack>
-            </div>
-          )
+            </div>)
         })}
         <h5 className='game-title-result'>wrong: {wordWrongInfo.length}</h5>
         {wordWrongInfo.flat().map((item, index) => {
@@ -78,8 +77,7 @@ const PageResultAudioCall = (props: IPageResultProps) => {
                 <VolumeUpIcon data-id={item.id} onClick={startAudio} />
                 {<ListSubheader>{`${item.word} - ${item.wordTranslate}`}</ListSubheader>}
               </Stack>
-            </div>
-          )
+            </div>)
         })}
       </List>
     </div >

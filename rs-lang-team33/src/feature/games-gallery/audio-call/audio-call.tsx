@@ -2,19 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import { useKey } from 'react-keyboard-hooks'
 import { useSound } from 'use-sound';
 
-import { Button, Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
+import { Button, CardActions, CardContent, IconButton } from '@mui/material';
 import VolumeUpOutlinedIcon from '@mui/icons-material/VolumeUpOutlined';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import { changeWord, getWord, getWords, setWord, getUserWords } from '../../../services/sprint-service';
 import PageAudioCallSettings from './page-audio-call-settings/page-settings-audio-call';
 import PageResultAudioCall from './page-result-audio-call/page-result-audio-call';
 import { IUserWord, IWordCard, IUserInfo } from '../../../interfaces';
+import { baseURL } from '../../../constants';
 
 import "./audio-call.css";
-import { baseURL } from '../../../constants';
 
 const GameAudioCall = () => {
   const [difficulty, setDifficulty] = useState('1');
@@ -23,7 +21,6 @@ const GameAudioCall = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [isStart, setIsStart] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-  const [isAudioFinished, setIsAudioFinished] = useState(true);
   const [dataWords, setDataWords] = useState<IWordCard[] | null>(null);
   const [numberCurrentPage, setNumberCurrentPage] = useState<number>(0);
   const [numberCurrentWord, setNumberCurrentWord] = useState<number>(0);
@@ -32,6 +29,7 @@ const GameAudioCall = () => {
   const [arrAnswers, setArrAnswers] = useState<number[]>([]);
   const [numberAnswer, setNumberAnswer] = useState<number | null>(null);
   const [userWordsList, setUserWordsList] = useState<IUserWord[]>([]);
+  const [togglerDisplayButtons, setTogglerDisplayButtons] = useState<Boolean>(false);
 
   const correct = require('../../../resources/correct.mp3');
   const incorrect = require('../../../resources/incorrect.mp3');
@@ -51,7 +49,6 @@ const GameAudioCall = () => {
   const getRandomNumberWord: (min: number, max: number) => number = (min, max) => {
     let numb: number;
     numb = Math.floor(min + Math.random() * (max - min));
-
     if (numbersWordList.includes(numb)) return getRandomNumberWord(min, max);
     else { setNumbersWordList((numbersWordList) => [...numbersWordList, numb]) }
     return numb;
@@ -101,10 +98,22 @@ const GameAudioCall = () => {
   }, [numberCurrentWord]);
 
   useEffect(() => {
-    if (isFinished) {
+    if (isFinished && !isLoading) {
       userWordsLoading();
     }
-  }, [isFinished]);
+  }, [isFinished, isLoading]);
+
+  useEffect(() => {
+    if (isLoading) {
+      addUserWord();
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    if (togglerDisplayButtons) {
+      focusOnItem();
+    }
+  }, [togglerDisplayButtons])
 
   const getData = () => {
     if (numbersWordList.length < 30) {
@@ -135,14 +144,8 @@ const GameAudioCall = () => {
     }
   }
 
-  const focusOnItem = () => {  
+  const focusOnItem = () => {
     if (numberAnswer || numberAnswer === 0) {
-      itemRefs.current.forEach((element) => {        
-        element.classList.remove('audio-call-text-button-right');
-        element.classList.remove('audio-call-text-button-wrong');
-        element.classList.remove('audio-call-text-button-another');
-      });
-  
       itemRefs.current.forEach((element) => {
         if (numberAnswer === numberCurrentWord) {
           itemRefs.current[numberCurrentWord].classList.add('audio-call-text-button-right');
@@ -151,18 +154,26 @@ const GameAudioCall = () => {
           itemRefs.current[numberAnswer].classList.add('audio-call-text-button-wrong');
         }
         element.classList.add('audio-call-text-button-another');
+        element.disabled = true;
       });
+    } else {
+      itemRefs.current.forEach((element) => {
+        element !== itemRefs.current[numberCurrentWord] ?
+          element.classList.add('audio-call-text-button-another') :
+          itemRefs.current[numberCurrentWord].classList.add('audio-call-text-button-right');
+          element.disabled = true;
+      })
     }
   };
 
-  const addUserWord = (answer: boolean) => {
+  const addUserWord = () => {
     if (userInfo && dataWords) {
       getWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), (userInfo as IUserInfo).token)
         .then(() => {
           changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
             difficulty: difficulty,
             optional: {
-              audioCall: answer
+              audioCall: numberCurrentWord === numberAnswer
             }
           }, (userInfo as IUserInfo).token)
         })
@@ -171,17 +182,19 @@ const GameAudioCall = () => {
             setWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
               difficulty: difficulty,
               optional: {
-                audioCall: answer
+                audioCall: numberCurrentWord === numberAnswer
               }
             }, (userInfo as IUserInfo).token)
           };
         });
     };
+    setIsLoading(false);
   };
 
   const setDataUserWord = () => {
     if (isSignIn) {
-      addUserWord(numberCurrentWord === numberAnswer);
+      setIsLoading(true);
+      addUserWord();
     } else {
       if (dataWords && dataWords.length > 0) {
         setUserWordsList((userWordsList) => [...userWordsList, {
@@ -198,14 +211,21 @@ const GameAudioCall = () => {
 
   const onNext = () => {
     setDataUserWord();
-
     if (numbersWordList.length < 20) {
       setNumberCurrentWord(getRandomNumberWord(0, 20));
       setNumberAnswer(null);
     } else {
       setIsFinished(true);
-      setIsLoading(true);
     };
+  }
+
+  const onDiscover = () => {
+    focusOnItem();
+    setTogglerDisplayButtons(false);
+  }
+
+  const onHidden = (b: Boolean) => {
+    setTogglerDisplayButtons(b);
   }
 
   const userWordsLoading = () => {
@@ -247,15 +267,21 @@ const GameAudioCall = () => {
                     }}
                     className='audio-call-text-button'
                     variant="text"
-                    onClick={(event) => onSelect(event)}>{++i} {(dataWords[item] as IWordCard).wordTranslate}
+                    onClick={(event) => { onSelect(event); onHidden(true) }}>{++i} {(dataWords[item] as IWordCard).wordTranslate}
                   </Button>
                 </li>
               })}
             </ul>
           </CardContent>
           <CardActions className='field-audio-call-buttons'>
-            <Button variant="outlined">I don't know</Button>
-            <Button variant="outlined" onClick={onNext}><ArrowRightAltIcon fontSize='medium' /></Button>
+            <Button
+              variant="outlined"
+              style={{ display: !togglerDisplayButtons ? 'flex' : 'none' }}
+              onClick={() => { onDiscover(); onHidden(true); inCor() }}>I don't know</Button>
+            <Button
+              variant="outlined"
+              style={{ display: togglerDisplayButtons ? 'flex' : 'none' }}
+              onClick={() => { onNext(); onHidden(false) }}><ArrowRightAltIcon fontSize='medium' /></Button>
           </CardActions>
         </div >
       )
@@ -263,8 +289,8 @@ const GameAudioCall = () => {
   }
 
   const pageSettings = !isStart ? <PageAudioCallSettings onStart={onStart} /> : null;
-  const pageGame = !(isLoading || !dataWords) ? <PageAudioCall /> : null;
-  const pageResult = isFinished ?
+  const pageGame = dataWords && !isFinished && !isLoading ? <PageAudioCall /> : null;
+  const pageResult = isFinished && !isLoading ?
     <PageResultAudioCall
       userWordsList={userWordsList}
       difficulty={difficulty}

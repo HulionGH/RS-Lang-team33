@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { PageSettingsProps } from '../../../../types';
 
@@ -11,6 +11,10 @@ const PageSprintSettings = (props: PageSettingsProps) => {
   const handleChange = (event: SelectChangeEvent) => {
     setDifficulty(event.target.value as string);
   };
+
+  useEffect(() => {
+    onStart();
+  }, [])
 
   const onStart = () => {
     const { onStart } = props;

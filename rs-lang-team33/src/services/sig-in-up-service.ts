@@ -61,6 +61,7 @@ export async function getNewToken(userId: string, refreshToken: string) {
 
 instance = axios.create({});
 
+
 axios.interceptors.response.use(
   (response) => {
     console.log('axios return response');
@@ -101,10 +102,17 @@ axios.interceptors.response.use(
               Authorization: `Bearer ${userInfo?.token}`,
             },
           };
+          console.log('return instance(originalConfig)');
+          return instance(originalConfig);
         }
-        console.log('return instance(originalConfig)');
-  
-        return instance(originalConfig);
+        if (res && res.status === 401) {
+          console.log('401 in getNewToken');
+
+          localStorage.clear();
+          const navigate = useNavigate();
+          navigate("/sign-in")
+          console.log('navigate to sign-in');
+        }
       }).catch(() => {
         localStorage.clear();
         let navigate = useNavigate();
