@@ -25,7 +25,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <div>{children}</div>
         </Box>
       )}
     </div>
@@ -129,13 +129,6 @@ const Dictionary = () => {
               columnGap: "8px",
             }}
           >
-            <Pagination
-              count={30}
-              page={page}
-              onChange={(e, value) => setPage(value)}
-              color="primary"
-            />
-
             <Button
               className="game-btn"
               onClick={() => navigate("/audion-call")}
@@ -156,9 +149,11 @@ const Dictionary = () => {
             }}
           >
             <Box className="book-page">
-              {words.map((word) => {
-                if (word.difficult) return <Word key={word.id} card={word} />;
-              })}
+              {words
+                .filter((word) => word.difficult)
+                .map((word) => {
+                  return <Word key={word.id} card={word} />;
+                })}
             </Box>
           </Box>
         </TabPanel>
@@ -199,11 +194,11 @@ const Dictionary = () => {
             }}
           >
             <Box className="book-page">
-              {words.map((word) => {
-                if (word.learned) {
+              {words
+                .filter((word) => word.learned)
+                .map((word) => {
                   return <Word key={word.id} card={word} />;
-                }
-              })}
+                })}
             </Box>
           </Box>
         </TabPanel>

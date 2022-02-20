@@ -27,14 +27,10 @@ const Word = ({ card }: Props) => {
   };
 
   const setDifficult = () => {
-    if (!card.difficult) {
-      card.difficult = true;
-    }
+    card.difficult = !card.difficult;
   };
   const setLearned = () => {
-    if (!card.learned) {
-      card.learned = true;
-    }
+    card.learned = !card.learned;
   };
 
   return (
@@ -44,12 +40,12 @@ const Word = ({ card }: Props) => {
 
         <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
           <FormControlLabel
-            control={<Checkbox size="small" />}
+            control={<Checkbox size="small" checked={card.difficult} />}
             onClick={() => setDifficult()}
             label="DIFFICULT"
           />
           <FormControlLabel
-            control={<Checkbox size="small" />}
+            control={<Checkbox size="small" checked={card.learned} />}
             onClick={() => setLearned()}
             label="LEARNED"
           />
@@ -60,11 +56,11 @@ const Word = ({ card }: Props) => {
           <Typography gutterBottom variant="h5" component="div">
             {card.word}
           </Typography>
-          <p> - </p>
+          <div> - </div>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {card.transcription}
           </Typography>
-          <p> - </p>
+          <div> - </div>
           <Typography gutterBottom variant="h6" component="div">
             {card.wordTranslate}
           </Typography>
