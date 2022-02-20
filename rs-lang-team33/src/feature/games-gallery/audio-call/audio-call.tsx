@@ -161,7 +161,7 @@ const GameAudioCall = () => {
         element !== itemRefs.current[numberCurrentWord] ?
           element.classList.add('audio-call-text-button-another') :
           itemRefs.current[numberCurrentWord].classList.add('audio-call-text-button-right');
-          element.disabled = true;
+        element.disabled = true;
       })
     }
   };
@@ -169,11 +169,11 @@ const GameAudioCall = () => {
   const addUserWord = () => {
     if (userInfo && dataWords) {
       getWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), (userInfo as IUserInfo).token)
-        .then(() => {
+        .then((res) => {
           changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
             difficulty: difficulty,
             optional: {
-              audioCall: numberCurrentWord === numberAnswer
+              ...res.data.optional, audioCall: `${numberCurrentWord === numberAnswer}`,
             }
           }, (userInfo as IUserInfo).token)
         })
@@ -182,7 +182,7 @@ const GameAudioCall = () => {
             setWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
               difficulty: difficulty,
               optional: {
-                audioCall: numberCurrentWord === numberAnswer
+                audioCall: `${numberCurrentWord === numberAnswer}`
               }
             }, (userInfo as IUserInfo).token)
           };
@@ -267,7 +267,9 @@ const GameAudioCall = () => {
                     }}
                     className='audio-call-text-button'
                     variant="text"
-                    onClick={(event) => { onSelect(event); onHidden(true) }}>{++i} {(dataWords[item] as IWordCard).wordTranslate}
+                    onClick={(event) => { onSelect(event); onHidden(true) }}
+                  >
+                    {++i} {(dataWords[item] as IWordCard).wordTranslate}
                   </Button>
                 </li>
               })}
@@ -281,7 +283,10 @@ const GameAudioCall = () => {
             <Button
               variant="outlined"
               style={{ display: togglerDisplayButtons ? 'flex' : 'none' }}
-              onClick={() => { onNext(); onHidden(false) }}><ArrowRightAltIcon fontSize='medium' /></Button>
+              onClick={() => { onNext(); onHidden(false) }}
+            >
+              <ArrowRightAltIcon fontSize='medium' />
+            </Button>
           </CardActions>
         </div >
       )

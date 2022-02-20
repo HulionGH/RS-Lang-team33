@@ -34,8 +34,8 @@ export interface IPageResultProps {
 export interface IWordType {
   difficulty: string;
   optional: {
-    sprint?: boolean;
-    audioCall?: boolean;
+    sprint?: string;
+    audioCall?: string;
   };
 };
 

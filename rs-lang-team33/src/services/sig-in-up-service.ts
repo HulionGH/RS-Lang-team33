@@ -95,15 +95,6 @@ axios.interceptors.response.use(
             refreshToken: res.data.refreshToken,
             userId: (userInfo as IUserInfo).userId,
           });
-          originalConfig = {
-            ...originalConfig,
-            headers: {
-              ...originalConfig.headers,
-              Authorization: `Bearer ${userInfo?.token}`,
-            },
-          };
-          console.log('return instance(originalConfig)');
-          return instance(originalConfig);
         }
         if (res && res.status === 401) {
           console.log('401 in getNewToken');
@@ -113,6 +104,16 @@ axios.interceptors.response.use(
           navigate("/sign-in")
           console.log('navigate to sign-in');
         }
+      }).then(() => {
+        originalConfig = {
+          ...originalConfig,
+          headers: {
+            ...originalConfig.headers,
+            Authorization: `Bearer ${userInfo?.token}`,
+          },
+        };
+        console.log('return instance(originalConfig)');
+        return instance(originalConfig);
       }).catch(() => {
         localStorage.clear();
         let navigate = useNavigate();
