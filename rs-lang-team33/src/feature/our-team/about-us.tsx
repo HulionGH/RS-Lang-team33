@@ -16,7 +16,7 @@ const AboutUs = () => {
   return (
     <div className="content-wrap">
       <div className="content-about-us">
-        <Card sx={{ maxWidth: 300, maxHeight: 450 }}>
+        <Card sx={{ maxWidth: 320, maxHeight: 450 }}>
           <CardMedia component="img" height="300" image={juli} alt="Juli" />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
@@ -33,7 +33,7 @@ const AboutUs = () => {
             </Link>
           </CardContent>
         </Card>
-        <Card sx={{ maxWidth: 300, maxHeight: 450 }}>
+        <Card sx={{ maxWidth: 320, maxHeight: 450 }}>
           <CardMedia
             component="img"
             height="300"
