@@ -179,13 +179,6 @@ const Dictionary = () => {
               columnGap: "8px",
             }}
           >
-            <Pagination
-              count={30}
-              page={page}
-              onChange={(e, value) => setPage(value)}
-              color="primary"
-            />
-
             <Button
               className="game-btn"
               onClick={() => navigate("/audion-call")}
