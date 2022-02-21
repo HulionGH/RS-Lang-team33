@@ -34,9 +34,9 @@ const PageResultAudioCall = (props: IPageResultProps) => {
   let wordWrongInfo: Array<IWordCard[]> = [];
 
   const currentDifficultyRightAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-    && (String(item.optional.audioCall) === 'true'));
+    && (String(item.optional.game?.audioCall) === 'true'));
   const currentDifficultyWrongAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-    && (String(item.optional.audioCall) === 'false'));
+    && (String(item.optional.game?.audioCall) === 'false'));
   currentDifficultyRightAnswers.map((item) => wordRightInfo.push((dataWords as IWordCard[])
     .filter((i) => String(i.id) === item.wordId)))
   currentDifficultyWrongAnswers.map((item) => wordWrongInfo.push((dataWords as IWordCard[])

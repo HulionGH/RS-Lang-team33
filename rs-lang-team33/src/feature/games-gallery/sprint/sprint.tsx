@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { AxiosResponse } from 'axios';
 import { useKey } from 'react-keyboard-hooks'
 import { useSound } from 'use-sound';
 
@@ -31,7 +30,7 @@ const GameSprint = () => {
   const [numberAnswer, setNumberAnswer] = useState<number>(0);
   const [userWordsList, setUserWordsList] = useState<IUserWord[]>([]);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
-  const [isKnow, setIsKnow] = useState<boolean>(false);
+  const [largestSeriesCorAnsw, setLargestSeriesCorAnsw] = useState<number>(0);
 
   const correct = require('../../../resources/correct.mp3');
   const incorrect = require('../../../resources/incorrect.mp3');
@@ -80,10 +79,6 @@ const GameSprint = () => {
   useEffect(() => {
     setNumberAnswer(arrAnswers[Math.floor(Math.random() * 2)]);
   }, [arrAnswers]);
-
-  useEffect(() => {
-
-  })
 
   useEffect(() => {
     if (isFinished && timerId) {
@@ -142,7 +137,11 @@ const GameSprint = () => {
   };
 
   const afterSelect = (answer: string) => {
+    console.log(answer);
+    console.log(largestSeriesCorAnsw);
+    
     answer ? cor() : inCor();
+    answer ? setLargestSeriesCorAnsw((largestSeriesCorAnsw) => largestSeriesCorAnsw + 1) : setLargestSeriesCorAnsw(0);
     if (isSignIn) {
       setIsLoading(true);
       addUserWord(answer);
@@ -153,7 +152,9 @@ const GameSprint = () => {
           difficulty: `${difficulty}`,
           wordId: `${dataWords[numberCurrentWord].id}`,
           optional: {
-            sprint: `${answer}`
+            game: {
+              sprint: `${answer}`
+            }
           }
         }])
       }
@@ -177,19 +178,25 @@ const GameSprint = () => {
     if (userInfo && dataWords) {
       getWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), (userInfo as IUserInfo).token)
         .then((res) => {
-            changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
-              difficulty: difficulty,
-              optional: {
-                ...res.data.optional, sprint: answer,
-              }
-            }, (userInfo as IUserInfo).token)
+          changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
+            difficulty: difficulty,
+            optional: {
+              game: {
+                ...res.data.optional.game, sprint: answer
+              },
+              ...res.data.optional, largestSeriesCorAnswS: `${largestSeriesCorAnsw}`
+            }
+          }, (userInfo as IUserInfo).token)
         })
         .catch((error) => {
           if (Number(error.message.slice(-3)) === 404) {
             setWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
               difficulty: difficulty,
               optional: {
-                sprint: answer
+                game: {
+                  sprint: answer
+                },
+                largestSeriesCorAnswS: `${largestSeriesCorAnsw}`
               }
             }, (userInfo as IUserInfo).token)
           };

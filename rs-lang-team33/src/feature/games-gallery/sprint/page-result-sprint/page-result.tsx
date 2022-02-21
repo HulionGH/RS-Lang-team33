@@ -34,9 +34,9 @@ const PageResult = (props: IPageResultProps) => {
   let wordWrongInfo: Array<IWordCard[]> = [];
 
   const currentDifficultyRightAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-    && (String(item.optional.sprint) === 'true'));
+    && (String(item.optional.game?.sprint) === 'true'));
   const currentDifficultyWrongAnswers = userWordsList.filter((item) => item.difficulty === difficulty
-    && (String(item.optional.sprint) === 'false'));
+    && (String(item.optional.game?.sprint) === 'false'));
   currentDifficultyRightAnswers.map((item) => wordRightInfo.push((dataWords as IWordCard[])
     .filter((i) => String(i.id) === item.wordId)))
   currentDifficultyWrongAnswers.map((item) => wordWrongInfo.push((dataWords as IWordCard[])
