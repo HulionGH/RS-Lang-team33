@@ -59,9 +59,6 @@ export async function getNewToken(userId: string, refreshToken: string) {
   return await response;
 }
 
-instance = axios.create({});
-
-
 axios.interceptors.response.use(
   (response) => {
     console.log('axios return response');
@@ -99,9 +96,9 @@ axios.interceptors.response.use(
         if (res && res.status === 401) {
           console.log('401 in getNewToken');
 
-          localStorage.clear();
-          const navigate = useNavigate();
-          navigate("/sign-in")
+          // localStorage.clear();
+          // const navigate = useNavigate();
+          // navigate("/sign-in")
           console.log('navigate to sign-in');
         }
       }).then(() => {
@@ -113,11 +110,9 @@ axios.interceptors.response.use(
           },
         };
         console.log('return instance(originalConfig)');
-        return instance(originalConfig);
+        return axios.create(originalConfig);
       }).catch(() => {
-        localStorage.clear();
-        let navigate = useNavigate();
-        navigate("/sign-in")
+        console.log('catch in getNewToken');
       })
     }
     return Promise.reject(error);

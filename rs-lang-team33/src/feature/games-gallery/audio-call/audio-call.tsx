@@ -30,6 +30,7 @@ const GameAudioCall = () => {
   const [numberAnswer, setNumberAnswer] = useState<number | null>(null);
   const [userWordsList, setUserWordsList] = useState<IUserWord[]>([]);
   const [togglerDisplayButtons, setTogglerDisplayButtons] = useState<Boolean>(false);
+  const [largestSeriesCorAnsw, setLargestSeriesCorAnsw] = useState<number>(0);
 
   const correct = require('../../../resources/correct.mp3');
   const incorrect = require('../../../resources/incorrect.mp3');
@@ -78,6 +79,7 @@ const GameAudioCall = () => {
   useEffect(() => {
     if (numberAnswer || numberAnswer === 0) {
       numberCurrentWord === numberAnswer ? cor() : inCor();
+      numberCurrentWord === numberAnswer ? setLargestSeriesCorAnsw((largestSeriesCorAnsw) => largestSeriesCorAnsw + 1) : setLargestSeriesCorAnsw(0);
       focusOnItem();
     }
   }, [numberAnswer])
@@ -173,7 +175,10 @@ const GameAudioCall = () => {
           changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
             difficulty: difficulty,
             optional: {
-              ...res.data.optional, audioCall: `${numberCurrentWord === numberAnswer}`,
+              game: {
+                ...res.data.optional.game, audioCall: `${numberCurrentWord === numberAnswer}`,
+              },
+              ...res.data.optional, largestSeriesCorAnswAC: `${largestSeriesCorAnsw}`,
             }
           }, (userInfo as IUserInfo).token)
         })
@@ -182,7 +187,10 @@ const GameAudioCall = () => {
             setWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
               difficulty: difficulty,
               optional: {
-                audioCall: `${numberCurrentWord === numberAnswer}`
+                game: {
+                  audioCall: `${numberCurrentWord === numberAnswer}`
+                },
+                largestSeriesCorAnswAC: `${largestSeriesCorAnsw}`,
               }
             }, (userInfo as IUserInfo).token)
           };
@@ -202,7 +210,9 @@ const GameAudioCall = () => {
           difficulty: `${difficulty}`,
           wordId: `${dataWords[numberCurrentWord].id}`,
           optional: {
-            audioCall: `${numberCurrentWord === numberAnswer}`
+            game: {
+              audioCall: `${numberCurrentWord === numberAnswer}`
+            }
           }
         }])
       }

@@ -21,8 +21,12 @@ export interface IUserWord {
   difficulty: string;
   wordId: string;
   optional: {
-    sprint?: string;
-    audioCall?: string;
+    game?: {
+      sprint?: string;
+      audioCall?: string;
+    },
+    largestSeriesCorAnswS?: string,
+    largestSeriesCorAnswAC?: string,
   };
 }
 
@@ -35,8 +39,12 @@ export interface IPageResultProps {
 export interface IWordType {
   difficulty: string;
   optional: {
-    sprint?: string;
-    audioCall?: string;
+    game?: {
+      sprint?: string;
+      audioCall?: string;
+    },
+    largestSeriesCorAnswS?: string,
+    largestSeriesCorAnswAC?: string,
   };
 }
 
