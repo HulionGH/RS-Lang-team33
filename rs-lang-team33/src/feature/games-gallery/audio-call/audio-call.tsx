@@ -30,7 +30,6 @@ const GameAudioCall = () => {
   const [numberAnswer, setNumberAnswer] = useState<number | null>(null);
   const [userWordsList, setUserWordsList] = useState<IUserWord[]>([]);
   const [togglerDisplayButtons, setTogglerDisplayButtons] = useState<Boolean>(false);
-  const [largestSeriesCorAnsw, setLargestSeriesCorAnsw] = useState<number>(0);
 
   const correct = require('../../../resources/correct.mp3');
   const incorrect = require('../../../resources/incorrect.mp3');
@@ -79,11 +78,10 @@ const GameAudioCall = () => {
   useEffect(() => {
     if (numberAnswer || numberAnswer === 0) {
       numberCurrentWord === numberAnswer ? cor() : inCor();
-      numberCurrentWord === numberAnswer ? setLargestSeriesCorAnsw((largestSeriesCorAnsw) => largestSeriesCorAnsw + 1) : setLargestSeriesCorAnsw(0);
       focusOnItem();
     }
   }, [numberAnswer])
-
+  
   useEffect(() => {
     setArrAnswers([]);
     setArrAnswers((arrAnswers) => ([...arrAnswers, numberCurrentWord]));
@@ -118,7 +116,7 @@ const GameAudioCall = () => {
   }, [togglerDisplayButtons])
 
   const getData = () => {
-    if (numbersWordList.length < 30) {
+    if (numbersPageList.length < 30) {
       setNumberCurrentPage(() => getRandomNumberPage(0, 30));
     }
     setIsLoading(true);
@@ -169,16 +167,16 @@ const GameAudioCall = () => {
   };
 
   const addUserWord = () => {
-    if (userInfo && dataWords) {
+    if (userInfo && dataWords) {      
       getWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), (userInfo as IUserInfo).token)
         .then((res) => {
           changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
             difficulty: difficulty,
             optional: {
+              ...res.data.optional, largestSeriesCorAnswAC: 'label',
               game: {
                 ...res.data.optional.game, audioCall: `${numberCurrentWord === numberAnswer}`,
               },
-              ...res.data.optional, largestSeriesCorAnswAC: `${largestSeriesCorAnsw}`,
             }
           }, (userInfo as IUserInfo).token)
         })
@@ -190,7 +188,7 @@ const GameAudioCall = () => {
                 game: {
                   audioCall: `${numberCurrentWord === numberAnswer}`
                 },
-                largestSeriesCorAnswAC: `${largestSeriesCorAnsw}`,
+                largestSeriesCorAnswAC: 'label',
               }
             }, (userInfo as IUserInfo).token)
           };
@@ -293,7 +291,7 @@ const GameAudioCall = () => {
             <Button
               variant="outlined"
               style={{ display: togglerDisplayButtons ? 'flex' : 'none' }}
-              onClick={() => { onNext(); onHidden(false) }}
+              onClick={() => { onNext(); onHidden(false); }}
             >
               <ArrowRightAltIcon fontSize='medium' />
             </Button>

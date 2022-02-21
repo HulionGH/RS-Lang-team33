@@ -83,7 +83,7 @@ const Stats = () => {
         .then((res) => {
           setChartData(res.data);
           console.log(res.data);
-          
+
         })
         .catch((error) => console.log(error));
     }
@@ -97,10 +97,20 @@ const Stats = () => {
     return Number(item.optional.largestSeriesCorAnswS);
   });
   const largestSeriesCorAnswSprint = Math.max.apply(null, arrLargestSeriesCorAnswSprint);
-  const arrLargestSeriesCorAnswAudioCall = (chartData as IUserWord[]).filter((item) => item.optional.largestSeriesCorAnswAC).map((item) => {
-    return Number(item.optional.largestSeriesCorAnswAC);
-  });
-  const largestSeriesCorAnswAudioCall = Math.max.apply(null, arrLargestSeriesCorAnswAudioCall);
+
+  const arrAnswersAC = (chartData as IUserWord[]).reduce((newArr: number[], item) => {
+    if (String(item.optional.game?.sprint) === 'true' && item.optional.largestSeriesCorAnswAC === 'label') {
+      newArr.push(1)
+    } else newArr.push(0)
+    return newArr;
+  }, [])
+
+  let count = 0;
+  let largestSeriesCorAnswAudioCall = 0;
+  for (let i = arrAnswersAC.length - 1; i > 0; i--) {
+    if (arrAnswersAC[i] === 1 && arrAnswersAC[i - 1] === 1) count++;
+    else if (largestSeriesCorAnswAudioCall < count) largestSeriesCorAnswAudioCall = count;
+  }
 
   return (
     <div className="content-wrap content-wrap-stats">
