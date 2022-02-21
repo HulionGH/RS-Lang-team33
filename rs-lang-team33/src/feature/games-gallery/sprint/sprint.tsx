@@ -125,26 +125,23 @@ const GameSprint = () => {
   };
 
   const onSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const answer = `${(numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
-      || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong")}`;
+    const answer = (numberCurrentWord === numberAnswer && event.currentTarget.dataset.name === "right")
+      || (numberCurrentWord !== numberAnswer && event.currentTarget.dataset.name === "wrong");
     afterSelect(answer);
   };
 
   const onSelectByKey = (str: string) => {
-    const answer = `${(numberCurrentWord === numberAnswer && str === "right")
-      || (numberCurrentWord !== numberAnswer && str === "wrong")}`;
+    const answer = (numberCurrentWord === numberAnswer && str === "right")
+      || (numberCurrentWord !== numberAnswer && str === "wrong");
     afterSelect(answer);
   };
 
-  const afterSelect = (answer: string) => {
-    console.log(answer);
-    console.log(largestSeriesCorAnsw);
-    
+  const afterSelect = (answer: boolean) => {
     answer ? cor() : inCor();
     answer ? setLargestSeriesCorAnsw((largestSeriesCorAnsw) => largestSeriesCorAnsw + 1) : setLargestSeriesCorAnsw(0);
     if (isSignIn) {
       setIsLoading(true);
-      addUserWord(answer);
+      addUserWord(String(answer));
     } else {
       if (dataWords && dataWords.length > 0) {
         setUserWordsList((userWordsList) => [...userWordsList, {
@@ -181,10 +178,10 @@ const GameSprint = () => {
           changeWord((userInfo as IUserInfo).userId, String((dataWords[numberCurrentWord] as IWordCard).id), {
             difficulty: difficulty,
             optional: {
+              ...res.data.optional, largestSeriesCorAnswS: `${largestSeriesCorAnsw}`,
               game: {
                 ...res.data.optional.game, sprint: answer
-              },
-              ...res.data.optional, largestSeriesCorAnswS: `${largestSeriesCorAnsw}`
+              }
             }
           }, (userInfo as IUserInfo).token)
         })

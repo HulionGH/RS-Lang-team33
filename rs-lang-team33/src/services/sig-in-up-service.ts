@@ -59,31 +59,20 @@ export async function getNewToken(userId: string, refreshToken: string) {
   return await response;
 }
 
+instance = axios.create({});
+
 axios.interceptors.response.use(
   (response) => {
-    console.log('axios return response');
-
     return response;
   },
   async (error) => {
-    console.log('axios error');
-
     let originalConfig = error.config;
     if (error.response.status === 401) {
-      console.log('401');
-      console.log((userInfo as IUserInfo).userId);
-      console.log((userInfo as IUserInfo).refreshToken);
-
       getNewToken(
         (userInfo as IUserInfo).userId,
         (userInfo as IUserInfo).refreshToken
       ).then((res) => {
-        console.log(res);
-
         if (res && res.status === 200) {
-          console.log('create newUser and setLocalStorage');
-          console.log('create new Config');
-  
           setLocalStorage({
             name: (userInfo as IUserInfo).name,
             email: (userInfo as IUserInfo).email,
@@ -92,14 +81,15 @@ axios.interceptors.response.use(
             refreshToken: res.data.refreshToken,
             userId: (userInfo as IUserInfo).userId,
           });
-        }
-        if (res && res.status === 401) {
-          console.log('401 in getNewToken');
-
-          // localStorage.clear();
-          // const navigate = useNavigate();
-          // navigate("/sign-in")
-          console.log('navigate to sign-in');
+          getLocalStorage();
+          originalConfig = {
+            ...originalConfig,
+            headers: {
+              ...originalConfig.headers,
+              Authorization: `Bearer ${res.data.token}`,
+            },
+          };
+          return instance(originalConfig);
         }
       }).then(() => {
         originalConfig = {
@@ -109,10 +99,9 @@ axios.interceptors.response.use(
             Authorization: `Bearer ${userInfo?.token}`,
           },
         };
-        console.log('return instance(originalConfig)');
         return axios.create(originalConfig);
       }).catch(() => {
-        console.log('catch in getNewToken');
+        console.log('error in getNewToken');
       })
     }
     return Promise.reject(error);
